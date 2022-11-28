@@ -10,7 +10,7 @@
     "@mui/material": "^5.4.4",
     "@mui/x-data-grid": "^5.5.1",
     "@mui/x-date-pickers": "^5.0.1",
-    "@react-pdf/renderer": "^3.0.0",
+    "@react-pdf/renderer": "^3.0.1",
     "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",

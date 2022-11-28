@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import BarcodeReader from "react-barcode-reader";
 import { useRef } from "react";
+import Invoice from "./Invoce";
 
 const style = {
   position: "absolute",
@@ -101,9 +102,7 @@ function SingleOrderPage({ invoice }) {
             var colorImage = null;
 
             data.variation.map((deatails) => {
-    
-              if ((deatails.color == product.color)) {
-             
+              if (deatails.color == product.color) {
                 colorImage = deatails.image;
               }
             });
@@ -359,29 +358,54 @@ function SingleOrderPage({ invoice }) {
         <table className="table " s>
           <thead>
             <tr className="bg-warning">
-              <th style={{textAlign:"center"}} scope="col">PRO_ID</th>
-              <th style={{textAlign:"center"}} scope="col">IMAGE</th>
-              <th style={{textAlign:"center"}} scope="col">COLOR</th>
-              <th style={{textAlign:"center"}} scope="col">SIZE</th>
-              <th style={{textAlign:"center"}} scope="col">QTY</th>
-              <th style={{textAlign:"center"}} scope="col">PRICE</th>
+              <th style={{ textAlign: "center" }} scope="col">
+                PRO_ID
+              </th>
+              <th style={{ textAlign: "center" }} scope="col">
+                IMAGE
+              </th>
+              <th style={{ textAlign: "center" }} scope="col">
+                COLOR
+              </th>
+              <th style={{ textAlign: "center" }} scope="col">
+                SIZE
+              </th>
+              <th style={{ textAlign: "center" }} scope="col">
+                QTY
+              </th>
+              <th style={{ textAlign: "center" }} scope="col">
+                PRICE
+              </th>
             </tr>
           </thead>
           <tbody>
             {produts.map((items, index) => {
               return (
-                <tr style={{textAlign:"center",verticalAlign:"center"}} key={index}>
-                  <th style={{textAlign:"center",verticalAlign:"middle"}}>{items.ProductId}</th>
+                <tr
+                  style={{ textAlign: "center", verticalAlign: "center" }}
+                  key={index}
+                >
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>
+                    {items.ProductId}
+                  </th>
                   <td>
                     <img
                       src={items.image}
                       style={{ width: "150px", height: "200px" }}
                     ></img>
                   </td>
-                  <td style={{textAlign:"center",verticalAlign:"middle"}}>{items.color}</td>
-                  <td style={{textAlign:"center",verticalAlign:"middle"}}>{items.size}</td>
-                  <td style={{textAlign:"center",verticalAlign:"middle"}}>{items.quantity}</td>
-                  <td style={{textAlign:"center",verticalAlign:"middle"}}>{items.quantity + "x" + items.price.toFixed(0)}</td>
+                  <td style={{ textAlign: "center", verticalAlign: "middle" }}>
+                    {items.color}
+                  </td>
+                  <td style={{ textAlign: "center", verticalAlign: "middle" }}>
+                    {items.size}
+                  </td>
+                  <td style={{ textAlign: "center", verticalAlign: "middle" }}>
+                    {items.quantity}
+                  </td>
+                  <td style={{ textAlign: "center", verticalAlign: "middle" }}>
+                    {items.quantity + "x" + items.price.toFixed(0)}
+                  </td>
                 </tr>
               );
             })}
@@ -450,12 +474,13 @@ function SingleOrderPage({ invoice }) {
         </button>
       </Box>
       <div class="text-center mb-5"></div>
-      <div  style={{marginTop:"100%"}}>
-        <AddressPdf
+      <div style={{ marginTop: "5%" }}>
+        {/* <AddressPdf
           fromaddress={fromaddress}
           company={componentRef}
           useraddress={address}
-        />
+        /> */}
+        <Invoice order={singleOrder} company={componentRef} />
       </div>
     </>
   );

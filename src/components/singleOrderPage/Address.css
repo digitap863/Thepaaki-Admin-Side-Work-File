@@ -1,0 +1,7 @@
+
+.anandhu th,td{
+    border: solid 2px black;
+    border-collapse: collapse;
+    text-align: center;
+    padding: 5px 10px;
+}

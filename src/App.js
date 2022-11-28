@@ -13,6 +13,7 @@ import AllOrders from "./pages/order/Order";
 import DealOfTheDAy from "./pages/dealOfDay/Deal";
 import BottomBanner from "./pages/bottomBanner/BottomBanner";
 import Dispatachorders from "./pages/dispatchOrders/DispatchOrders";
+import PdfDownload from "./components/yesterdayAddress/PdfDownload";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import EditPage from "./pages/EditProductPage/EditPage";
 import { userInputs } from "./formSource";
@@ -77,6 +78,9 @@ function App() {
             </Route>
             <Route path="/view-dispatch-orders">
               <Route index element={<Dispatachorders />} />
+            </Route>
+            <Route path="/download-yesterday-address">
+              <Route index element={<PdfDownload />} />
             </Route>
           
         </Routes>

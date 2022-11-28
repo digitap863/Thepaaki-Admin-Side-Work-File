@@ -141,6 +141,9 @@ function AllOrder() {
         boxShadow: "2px 4px 10px 7px rgba(201, 201, 201, 0.47)",
       }}
     >
+      <div className="text-end">
+        <button className="btn btn-primary" onClick={()=>{navigate("/download-yesterday-address")}}>DOWNLOAD ADDRESS</button>
+      </div>
       <DataTableExtensions {...tableData}>
         <DataTable
           title={"Order Deatails"}
