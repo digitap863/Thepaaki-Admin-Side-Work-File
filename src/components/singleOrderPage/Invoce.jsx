@@ -19,7 +19,7 @@ function Invoice({ company, order }) {
   if (order?.user) {
     subToatal = order?.Total - order?.DeliveyCharge;
   } else {
-    subToatal = order?.Total + order?.wallet - order?.DeliveyCharge;
+    subToatal = parseInt(order?.Total) + parseInt(order?.wallet) - parseInt(order?.DeliveyCharge);
   }
   return (
     <div
@@ -36,15 +36,17 @@ function Invoice({ company, order }) {
         }}
       >
         <table className="anandhu">
-          <th colSpan="12" style={{ paddingTop: "30" }}>
-            <span style={{ fontSize: "28px", fontWeight: 800 }}>
-              {" "}
-              MOFFA CLOTHING
-            </span>
-            <br />
-            Convent Road Ernakulam <br />
-            Tel: 8848572454,GSTIN:32ACQPF6742G1ZM
-          </th>
+          {order?.user && (
+            <th colSpan="12" style={{ paddingTop: "30" }}>
+              <span style={{ fontSize: "28px", fontWeight: 800 }}>
+                {" "}
+                MOFFA CLOTHING
+              </span>
+              <br />
+              Convent Road Ernakulam <br />
+              Tel: 8848572454,GSTIN:32ACQPF6742G1ZM
+            </th>
+          )}
 
           <tr>
             <th colSpan="12">ORDER BILL</th>
@@ -63,20 +65,66 @@ function Invoice({ company, order }) {
             </th>
           </tr>
           <tr>
-            <th colSpan="12" style={{ textAlign: "end" }}>
+            <th colSpan="12">
               <br />
-              <span style={{ textTransform: "uppercase" }}>
-                {" "}
-                {order.Address?.StreetAddress}{" "}
-              </span>
-              <br />
-              <span style={{ textTransform: "uppercase" }}>
-                {" "}
-                {order.Address?.Pincode},{order.Address?.TownCity},
-                {order.Address?.State}
-              </span>{" "}
-              <br />
-              MOBILE: {order.Address?.PhoneNumber}
+              <div style={{ display: "flex" }}>
+                <div style={{ textAlign: "start" }}>
+                  {order?.user ? (
+                    <>
+                      <span style={{ marginRight: "25%" }}>FROM:</span>
+                      <br />
+                      <span style={{ textTransform: "uppercase" }}>
+                        {" "}
+                        1st FLOOR,67/9112,CONVENT ROAD
+                      </span>
+                      <br />
+                      <span style={{ textTransform: "uppercase" }}>
+                        {" "}
+                        682035,Kerala,Ernakulam
+                      </span>{" "}
+                      <br />
+                      MOBILE: 8848572454
+                    </>
+                  ) : (
+                    <>
+                      <span style={{ marginRight: "25%" }}>FROM:</span>
+                      <br />
+                      <span style={{ textTransform: "uppercase" }}>
+                        {" "}
+                        {order.FromAddress?.FromName}{" "}
+                        {order.FromAddress?.FromLastName} <br />
+                        {order.FromAddress?.FromStreetAddress}
+                      </span>
+                      <br />
+                      <span style={{ textTransform: "uppercase" }}>
+                        {" "}
+                        {order.FromAddress?.FromPincode},
+                        {order.FromAddress?.FromTownCity},
+                        {order.FromAddress?.FromState}
+                      </span>{" "}
+                      <br />
+                      MOBILE: {order.FromAddress?.FromPhoneNumber}
+                    </>
+                  )}
+                </div>
+                <div style={{ marginLeft: "auto", textAlign: "end" }}>
+                  <span style={{ marginRight: "100%" }}>TO:</span>
+                  <br />
+                  <span style={{ textTransform: "uppercase" }}>
+                    {" "}
+                    {order.Address?.StreetAddress}
+                    {"  "}
+                  </span>
+                  <br />
+                  <span style={{ textTransform: "uppercase" }}>
+                    {" "}
+                    {order.Address?.Pincode},{order.Address?.TownCity},
+                    {order.Address?.State}
+                  </span>{" "}
+                  <br />
+                  MOBILE: {order.Address?.PhoneNumber}
+                </div>
+              </div>
             </th>
           </tr>
           <tr>
@@ -102,16 +150,18 @@ function Invoice({ company, order }) {
             let price;
             if (order?.user) {
               if (items.dicount) {
-                const less = (items.price / 100) * items.dicount;
-                console.log(less, "fkc");
-                price = items.price - less;
+                const less =
+                  (parseInt(items.price) / 100) *
+                  parseInt(items.dicount).toFixed(0);
+
+                price = parseInt(items.price) - less;
                 console.log(price);
               }
             } else {
-              price = items?.wholeSalerPrice;
+              price = parseInt(items?.wholeSalerPrice);
             }
 
-            const Total = items?.quantity * price;
+            const Total = parseInt(items?.quantity) * price;
             console.log(Total, items?.quantity);
             const Rate = (Total / 100) * 2.5;
             return (
