@@ -87,6 +87,7 @@ const List = () => {
       );
       setLoading(true);
       setLoading(false);
+      setOpen(false);
       swal("Successfully Added!", {
         icon: "success",
       });

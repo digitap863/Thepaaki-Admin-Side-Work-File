@@ -3,23 +3,19 @@ import { useEffect } from "react";
 import { useState } from "react";
 import "./Address.css";
 function Invoice({ company, order }) {
-  //  const [name,setName]=useState()
-  //   const [name, setName] = useState();
-  //   const [address, setAddress] = useState({});
-  //   useEffect(() => {
-  //     const name = JSON.stringify(order.Address.Name);
-
-  //     const Address = JSON.stringify(order.Address);
-  //     setAddress(Address);
-  //     setName(name);
-  //   }, []);
-  console.log(order, "dckckc");
-
   var subToatal;
   if (order?.user) {
     subToatal = order?.Total - order?.DeliveyCharge;
   } else {
-    subToatal = parseInt(order?.Total) + parseInt(order?.wallet) - parseInt(order?.DeliveyCharge);
+    console.log(order);
+    if (order?.wallet) {
+      subToatal =
+        parseInt(order?.Total) +
+        parseInt(order?.wallet) -
+        parseInt(order?.DeliveyCharge);
+    } else {
+      subToatal = parseInt(order?.Total) - parseInt(order?.DeliveyCharge);
+    }
   }
   return (
     <div
@@ -151,19 +147,19 @@ function Invoice({ company, order }) {
             if (order?.user) {
               if (items.dicount) {
                 const less =
-                  (parseInt(items.price) / 100) *
+                  (parseInt(items.Price) / 100) *
                   parseInt(items.dicount).toFixed(0);
 
-                price = parseInt(items.price) - less;
-                console.log(price);
+                price = parseInt(items.Price) - less;
               }
             } else {
               price = parseInt(items?.wholeSalerPrice);
             }
 
             const Total = parseInt(items?.quantity) * price;
-            console.log(Total, items?.quantity);
-            const Rate = (Total / 100) * 2.5;
+            const singlegst = (parseInt(price) / 100) * (2.5).toFixed(0);
+            const Rate = parseInt(items?.quantity) * singlegst.toFixed(0);
+
             return (
               <>
                 <tr>
@@ -172,8 +168,8 @@ function Invoice({ company, order }) {
                   <th rowspan="2">{items?.color}</th>
                   <th rowspan="2">{items?.size}</th>
                   <th rowspan="2">{items?.quantity}</th>
-                  <th rowspan="2">{price}</th>
-                  <th rowspan="2">{Total}</th>
+                  <th rowspan="2">{price.toFixed(0)}</th>
+                  <th rowspan="2">{Total.toFixed(0)}</th>
                   <th rowspan="2">2.50</th>
                 </tr>
 
@@ -181,13 +177,13 @@ function Invoice({ company, order }) {
                   <th>{Rate}</th>
                   <th>2.50</th>
                   <th>{Rate}</th>
-                  <th>{Total}</th>
+                  <th>{Total.toFixed(0)}</th>
                 </tr>
               </>
             );
           })}
           <tr>
-            <th colSpan="5">Sub Toyal</th>
+            <th colSpan="5">Sub Total</th>
             <th colSpan="7" style={{ textAlign: "end" }}>
               {subToatal} Rs
             </th>
@@ -204,12 +200,12 @@ function Invoice({ company, order }) {
               {subToatal + order?.DeliveyCharge} Rs
             </th>
           </tr>
-          <tr>
+          {/* <tr>
             <th colSpan="12">
               BARCODE <br />
               Anumon 2523
             </th>
-          </tr>
+          </tr> */}
         </table>
       </div>
     </div>

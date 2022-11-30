@@ -66,6 +66,7 @@ function SingleOrderPage({ invoice }) {
             config
           );
           setSingelOrder(data);
+          console.log(data, "dkck");
           single = data;
           if (!data.user) {
             setFromAddress(data.FromAddress);
@@ -122,15 +123,8 @@ function SingleOrderPage({ invoice }) {
             // var wholesaler = false;
 
             if (Role == true) {
-              if (offer) {
-                const discountedPrice = (data.price * offer) / 100;
-                singleProductPrice = data.price - discountedPrice;
-              } else if (data.discount) {
-                const discountPrice = (data.price * data.discount) / 100;
-                singleProductPrice = data.price - discountPrice;
-              } else {
-                singleProductPrice = data.price;
-              }
+              // const discountedPrice = (data.price * offer) / 100;
+              singleProductPrice = data.price;
             } else {
               singleProductPrice = data.wholesaler;
             }
@@ -144,6 +138,7 @@ function SingleOrderPage({ invoice }) {
                 quantity: product.quantity,
                 price: singleProductPrice,
                 name: data.name,
+                discount: product.dicount,
               },
             ]);
           } catch (eror) {
@@ -155,108 +150,11 @@ function SingleOrderPage({ invoice }) {
       }
     })();
   }, []);
-  const downloadInvoice = async () => {
-    let datas = [];
-    produts.map((items) => {
-      const obj = {
-        description: items.name + "-" + items.color,
-        quantity: items.quantity,
-        price: items.price,
-        "tax-rate": 0,
-        tax: 2,
-      };
-      datas.push(obj);
-    });
 
-    var data = {
-      // Customize enables you to provide your own templates
-      // Please review the documentation for instructions and examples
-      customize: {
-        //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html
-      },
-      images: {
-        // The logo on top of your invoice
-        logo: "https://public.easyinvoice.cloud/img/logo_en_original.png",
-        // The invoice background
-        background: "https://public.easyinvoice.cloud/img/watermark-draft.jpg",
-      },
-      // Your own data
-      sender: {
-        company: "Moffa Clothing",
-        address: "1st Floor,62/9112,Convent Road,Ernakulam",
-        zip: "682035",
-        city: "Ernakulam",
-        country: "India",
-        //"custom1": "custom value 1",
-        //"custom2": "custom value 2",
-        //"custom3": "custom value 3"
-      },
-      // Your recipient
-      client: {
-        company: address.Name + "," + address.LastName,
-        address: address.StreetAddress,
-        zip: address?.Pincode,
-        city: address.TownCity,
-        country: address.State,
-        custom1: address.Email,
-        custom2: address.PhoneNumber,
-
-        // address: address.StreetAddress,
-        // company:address.Name+","+address.LastName,
-
-        // "custom1": "custom value 1",
-        // "custom2": "custom value 2",
-        // "custom3": "custom value 3"
-      },
-      information: {
-        // Invoice number
-        number: parms.id,
-        // Invoice data
-        date: date,
-        // Invoice due date
-      },
-      // The products you would like to see on your invoice
-      // Total values are being calculated automatically
-      products: datas,
-      // The message you would like to display on the bottom of your invoice
-      "bottom-notice": "Kindly pay your invoice within 15 days.",
-      // Settings to customize your invoice
-      settings: {
-        currency: "INR", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
-        // "locale": "nl-NL", // Defaults to en-US, used for number formatting (See documentation 'Locales and Currency')
-        // "tax-notation": "GST", // Defaults to 'vat'
-        // "margin-top": 25, // Defaults to '25'
-        // "margin-right": 25, // Defaults to '25'
-        // "margin-left": 25, // Defaults to '25'
-        // "margin-bottom": 25, // Defaults to '25'
-        // "format": "A4", // Defaults to A4, options: A3, A4, A5, Legal, Letter, Tabloid
-        // "height": "1000px", // allowed units: mm, cm, in, px
-        // "width": "500px", // allowed units: mm, cm, in, px
-        // "orientation": "landscape", // portrait or landscape, defaults to portrait
-      },
-      // Translate your invoice to your preferred language
-      translate: {
-        // "invoice": "FACTUUR",  // Default to 'INVOICE'
-        // "number": "Nummer", // Defaults to 'Number'
-        // "date": "Datum", // Default to 'Date'
-        // "due-date": "Verloopdatum", // Defaults to 'Due Date'
-        // "subtotal": "Subtotaal", // Defaults to 'Subtotal'
-        // "products": "Producten", // Defaults to 'Products'
-        // "quantity": "Aantal", // Default to 'Quantity'
-        // "price": "Prijs", // Defaults to 'Price'
-        // "product-total": "Totaal", // Defaults to 'Total'
-        // "total": "Totaal" // Defaults to 'Total'
-      },
-    };
-
-    window.easyinvoice.createInvoice(data, async function (result) {
-      window.easyinvoice.download(`${OrderID}.pdf`);
-    });
-  };
   //dispatch order function
   const dispatchOrder = async () => {
     var link;
-    console.log();
+
     const Courier = singleOrder.Courier;
     if (Courier == "DTDC") {
       link = "https://trackcourier.io/dtdc-tracking?";
@@ -380,6 +278,10 @@ function SingleOrderPage({ invoice }) {
           </thead>
           <tbody>
             {produts.map((items, index) => {
+              const less =
+                (parseInt(items.price) / 100) *
+                parseInt(items.discount).toFixed(0);
+
               return (
                 <tr
                   style={{ textAlign: "center", verticalAlign: "center" }}
@@ -404,7 +306,9 @@ function SingleOrderPage({ invoice }) {
                     {items.quantity}
                   </td>
                   <td style={{ textAlign: "center", verticalAlign: "middle" }}>
-                    {items.quantity + "x" + items.price.toFixed(0)}
+                    {items.quantity +
+                      "x" +
+                      (parseInt(items.price) - less).toFixed(0)}
                   </td>
                 </tr>
               );
@@ -462,13 +366,6 @@ function SingleOrderPage({ invoice }) {
         <button
           className="float-end btn btn-primary ms-4"
           onClick={downloadPdf}
-        >
-          Download Pdf
-        </button>
-
-        <button
-          className="float-end btn btn-primary "
-          onClick={downloadInvoice}
         >
           Download Invoice
         </button>
