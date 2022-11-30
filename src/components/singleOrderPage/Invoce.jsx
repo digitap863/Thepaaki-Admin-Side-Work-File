@@ -7,7 +7,6 @@ function Invoice({ company, order }) {
   if (order?.user) {
     subToatal = order?.Total - order?.DeliveyCharge;
   } else {
-    console.log(order);
     if (order?.wallet) {
       subToatal =
         parseInt(order?.Total) +

@@ -247,7 +247,7 @@ function SingleOrderPage({ invoice }) {
                   className=" btn btn-primary mt-2"
                   onClick={dispatchOrder}
                 >
-                  Submit
+                  Submit 
                 </button>
               </div>
             </Box>
