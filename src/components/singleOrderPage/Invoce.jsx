@@ -188,7 +188,7 @@ function Invoice({ company, order }) {
             </th>
           </tr>
           <tr>
-            <th colSpan="5">Packing & Delivery Changes</th>
+            <th colSpan="5">Packing & Delivery Charges</th>
             <th colSpan="7" style={{ textAlign: "end" }}>
               {order?.DeliveyCharge} Rs
             </th>
