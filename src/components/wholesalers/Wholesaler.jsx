@@ -156,8 +156,7 @@ function Alluser() {
     handleOpen();
   };
   const handleClick = async () => {
-    console.log(amount);
-    console.log(wholsealerEditId);
+  
     const id = wholsealerEditId;
     const amoun = amount;
     try {

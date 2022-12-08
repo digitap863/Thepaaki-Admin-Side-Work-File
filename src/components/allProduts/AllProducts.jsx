@@ -18,9 +18,9 @@ import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  top: "10%",
+  left: "30%",
+
   width: 800,
   bgcolor: "background.paper",
   border: "2px solid #000",
@@ -194,7 +194,7 @@ function Alluser() {
 
   //delete user function
   const deleteProducts = async (id) => {
-    console.log(id,"s");
+   
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this data file!",
@@ -215,7 +215,7 @@ function Alluser() {
             {},
             config
           );
-          console.log(data);
+       
           setLoading(true);
           setLoading(false);
           swal("Good job!", "You clicked the button!", "success");
@@ -230,12 +230,12 @@ function Alluser() {
 
   return (
     <div
-    className="main ms-5 me-5 mt-4"
-    style={{
-      marginTop: "10px",
-      boxShadow: "2px 4px 10px 7px rgba(201, 201, 201, 0.47)",
-    }}
-  >
+      className="main ms-5 me-5 mt-4"
+      style={{
+        marginTop: "10px",
+        boxShadow: "2px 4px 10px 7px rgba(201, 201, 201, 0.47)",
+      }}
+    >
       <DataTableExtensions {...tableData}>
         <DataTable
           title={"User Deatails"}
@@ -260,41 +260,42 @@ function Alluser() {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">COLOR</th>
-                  <th scope="col">IMAGE</th>
-                  <th scope="col">SIZE-STOKE</th>
-                </tr>
-              </thead>
-              <tbody>
-                {variant.map((items, index) => {
-                  return (
-                    <tr key={index}>
-                      <th>{items.color}</th>
-                      <td>
-                        <img
-                          src={items.image}
-                          style={{ width: "75px", height: "100px" }}
-                        ></img>
-                      </td>
-                      <td>
-                        {items.size.map((group, index) => {
-                          return (
-                            <span key={index}>
-                              {group.name}-{group.stock}
-                              <br />
-                            </span>
-                          );
-                        })}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-
+            <div style={{ height: "70vh", overflow: "scroll" }}>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">COLOR</th>
+                    <th scope="col">IMAGE</th>
+                    <th scope="col">SIZE-STOKE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {variant.map((items, index) => {
+                    return (
+                      <tr key={index}>
+                        <th>{items.color}</th>
+                        <td>
+                          <img
+                            src={items.image}
+                            style={{ width: "75px", height: "100px" }}
+                          ></img>
+                        </td>
+                        <td>
+                          {items.size.map((group, index) => {
+                            return (
+                              <span key={index}>
+                                {group.name}-{group.stock}
+                                <br />
+                              </span>
+                            );
+                          })}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
             {/* <h2>Vertical headers:</h2>
             <table style={{ border: "1px solid black" }}>
               <tbody>

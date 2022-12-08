@@ -98,7 +98,7 @@ export default function FormPropsTextFields() {
                 setLoading(true)
                 setLoading(false)
               } catch (error) {
-                console.log(error);
+               
               }
             }
           }

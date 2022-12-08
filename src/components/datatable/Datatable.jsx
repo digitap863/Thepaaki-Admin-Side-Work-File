@@ -74,7 +74,7 @@ function Alluser() {
           },
         };
         const { data } = await axios.get("/api/superAdmin/viewAlluser", config);
-        console.log(data, "fslskjfksjf");
+
         setData(data);
       } catch (error) {
         swal("OOPS!", "Somthing Went Wrong!", "error");
@@ -106,7 +106,7 @@ function Alluser() {
           );
           setLoading(true);
           setLoading(false);
-          console.log(data);
+
           swal("success", {
             icon: "success",
           });
@@ -141,7 +141,7 @@ function Alluser() {
             {},
             config
           );
-          console.log(data);
+
           setLoading(true);
           setLoading(false);
           swal("Good job!", "You clicked the button!", "success");

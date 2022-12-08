@@ -48,7 +48,7 @@ export default function FormPropsTextFields() {
         },
         config
       );
-      console.log(data);
+      
       setLoading(true);
       setLoading(false);
       reset();
@@ -88,7 +88,7 @@ export default function FormPropsTextFields() {
             icon: "success",
           });
         } catch (error) {
-          console.log(error.response.data);
+          
         }
       } else {
         swal("Your Data Is Safe");

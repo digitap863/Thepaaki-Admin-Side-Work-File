@@ -60,14 +60,14 @@ function SingleOrderPage({ invoice }) {
             "auth-token": AdminDeatails.Token,
           },
         };
-        console.log(OrderID,"Dkckck");
+   
         if (config) {
           const { data } = await axios.get(
             `/api/superAdmin/view-single-order/${parms.id}`,
             config
           );
           setSingelOrder(data);
-          console.log(data, "dkck");
+       
           single = data;
           if (!data.user) {
             setFromAddress(data.FromAddress);
@@ -147,7 +147,7 @@ function SingleOrderPage({ invoice }) {
           }
         });
       } catch (error) {
-        console.log("error");
+
         swal("OOPS!", "Somthing Went Wrong!", "error");
       }
     })();

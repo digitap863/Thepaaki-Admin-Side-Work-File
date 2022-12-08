@@ -47,7 +47,7 @@ const Chart = ({ aspect, title }) => {
           "/api/superAdmin/get-mothly-sales",
           config
         );
-        console.log(data);
+       
         data.map((frist) => {
           //  const y=frist._id.getMonth()
           const month = new Date(frist._id).getMonth();

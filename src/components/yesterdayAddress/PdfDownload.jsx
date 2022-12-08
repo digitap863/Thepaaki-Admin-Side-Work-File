@@ -32,9 +32,9 @@ function PdfDownload() {
   useEffect(() => {
     (async function () {
       let date = new Date();
-      console.log(date);
+   
       date.setDate(date.getDate() - 1);
-      console.log(date);
+
       const month = date.getMonth() + 1;
       const Yesterday = date.getDate() + "/" + month + "/" + date.getFullYear();
       try {
@@ -51,7 +51,7 @@ function PdfDownload() {
         );
         setYesterday(data);
       } catch (error) {
-        console.log(error);
+     
       }
     })();
   }, []);

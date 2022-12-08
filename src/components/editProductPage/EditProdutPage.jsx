@@ -194,6 +194,7 @@ export default function FormPropsTextFields() {
         `/api/superAdmin/get-sinlge-Produt/${params.id}`,
         config
       );
+    
       data.image.map((item) => {
         productImages.push(item);
       });
@@ -240,7 +241,7 @@ export default function FormPropsTextFields() {
       ChangeColor({ edit: true, target: { value: color } });
       handleTag({ edit: true, target: { value: data.tag } });
     } catch (error) {
-      console.log(error);
+    
     }
   }, []);
 
@@ -270,7 +271,7 @@ export default function FormPropsTextFields() {
 
   //image uploding function
   const Imageupload = () => {
-    console.log(Tag);
+  
     var myWidget = window.cloudinary.openUploadWidget(
       {
         cloudName: "dq06v1dnz",
@@ -833,13 +834,15 @@ export default function FormPropsTextFields() {
                               />
                             </TableCell>
                             <TableCell align="center">
-                              {editStock.map((status) => {
+                              {editStock.map((status) => {   
+                      
                                 if (
                                   status.colors == color[index] &&
                                   status.siz == row
                                 ) {
                                   Available = true;
-                                  setValue(row, status.sto);
+                                  setValue(row,status.sto);
+                                 
                                   return (
                                     <input
                                       key={index}
@@ -863,7 +866,7 @@ export default function FormPropsTextFields() {
                                   style={{ width: "60px", height: "40px" }}
                                   type="text"
                                   id="outlined-uncontrolled"
-                                  label="Enter Offer Percentage"
+                                 
                                   {...register(row, {
                                     required: "Invalid Number",
                                   })}

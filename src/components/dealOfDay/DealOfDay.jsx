@@ -60,7 +60,7 @@ export default function FormPropsTextFields() {
     const OFFER = data.OFFER;
     const DealImage = image;
     const date = value.$d.toLocaleDateString();
-    console.log(date);
+ 
 
     try {
       const config = {
@@ -94,7 +94,7 @@ export default function FormPropsTextFields() {
       buttons: true,
       dangerMode: true,
     }).then(async (willDelete) => {
-      console.log(id);
+
       if (willDelete) {
         try {
           const config = {
@@ -130,7 +130,7 @@ export default function FormPropsTextFields() {
       (error, result) => {
         if (!error && result && result.event === "success") {
           setImage(result.info.url);
-          console.log(result.info.url);
+         
           // setImage((prev) => [
           //   ...prev,
           //   { url: result.info.url, public_id: result.info.public_id },

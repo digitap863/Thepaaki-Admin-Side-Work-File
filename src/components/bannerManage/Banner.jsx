@@ -96,7 +96,7 @@ export default function FormPropsTextFields() {
         setImage("");
         setLoading(true);
         setLoading(false);
-        console.log(data);
+        
         reset();
         swal("Successfully Added!", {
           icon: "success",
@@ -172,7 +172,7 @@ export default function FormPropsTextFields() {
     myWidget.open();
   };
 
-  console.log(Image);
+ 
 
   return (
     <Box

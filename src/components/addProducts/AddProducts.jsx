@@ -69,7 +69,7 @@ const names = [
   "powderblue",
   "yellowgreen",
   "whitesmoke",
-  "	wheat",
+  "wheat",
   "turquoise",
   "tomato",
   "thistle",
@@ -79,8 +79,62 @@ const names = [
   "snow",
   "slategrey",
   "slateblue",
-  "skyblue"
-
+  "skyblue",
+   "silver",
+   "sienna",
+   "seashell",
+"seagreen",
+"sandybrown",
+"salmon",
+"saddlebrown",
+"royalblue",
+"rosybrown",
+"powderblue",
+"plum",
+"pink",
+"peru",
+"peachpuff",
+"papayawhip",
+"palevioletred",
+"paleturquoise",
+"palegreen",
+"palegoldenrod",
+"orchid",
+"orangered",
+"orange",
+"olivedrab",
+"olive",
+"oldlace",
+"navy",
+"navajowhite",
+"moccasin",
+"mistyrose",
+"mintcream",
+"midnightblue",
+"mediumvioletred",
+"mediumturquoise",
+"mediumspringgreen",
+"mediumslateblue",
+"mediumseagreen",
+"mediumpurple",
+"mediumorchid",
+"mediumblue",
+"mediumaquamarine",
+"maroon",
+"magenta",
+"linen",
+"limegreen",
+"lime",
+"lightsteelblue",
+"lightslategrey",
+"lightslategray",
+"lightskyblue",
+"lightsalmon",
+"lightseagreen",
+"lightpink",
+"lightgrey",
+"lightgreen",
+"lightgray",
 ];
 const tagsName = [
   "ladies",
@@ -163,7 +217,6 @@ export default function FormPropsTextFields() {
   const [index, setIndex] = useState(0);
   const [varitaion, setVaritaion] = useState([]);
   const [image, setImage] = useState("");
-  //   const { addToast } = useToasts();
   const [productImages, setProductImages] = useState([]);
   const [stoke, setStoke] = useState([]);
   const [Tag, setTag] = React.useState([]);
@@ -177,7 +230,7 @@ export default function FormPropsTextFields() {
       target: { value },
     } = event;
     setColor(
-      // On autofill we get a stringified value.
+    
       typeof value === "string" ? value.split(",") : value
     );
   };
@@ -186,7 +239,7 @@ export default function FormPropsTextFields() {
       target: { value },
     } = event;
     setSize(
-      // On autofill we get a stringified value.
+    
       typeof value === "string" ? value.split(",") : value
     );
   };
@@ -240,7 +293,7 @@ export default function FormPropsTextFields() {
 
   //image uploding function
   const Imageupload = () => {
-    console.log(Tag);
+  
     var myWidget = window.cloudinary.openUploadWidget(
       {
         cloudName: "dq06v1dnz",
