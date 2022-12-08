@@ -67,6 +67,20 @@ const names = [
   "sandybrown",
   "purple",
   "powderblue",
+  "yellowgreen",
+  "whitesmoke",
+  "	wheat",
+  "turquoise",
+  "tomato",
+  "thistle",
+  "tan",
+  "steelblue",
+  "springgreen",
+  "snow",
+  "slategrey",
+  "slateblue",
+  "skyblue"
+
 ];
 const tagsName = [
   "ladies",

@@ -155,12 +155,7 @@ export default function FormPropsTextFields() {
       {
         cloudName: "dq06v1dnz",
         uploadPreset: "thepaaki",
-        cropping: "true",
-        croppingCoordinatesMode: "custom",
-        maxImageWidth: 1920,
-        maxImageHeight: 800,
-        minImageWidth: 1920,
-        minImageHeight: 800,
+
       },
       (error, result) => {
         if (!error && result && result.event === "success") {

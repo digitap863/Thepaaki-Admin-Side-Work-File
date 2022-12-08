@@ -143,6 +143,7 @@ function Invoice({ company, order }) {
           </tr>
           {order.Product?.map((items, index) => {
             let price;
+            
             if (order?.user) {
               if (items.dicount) {
                 const less =
@@ -154,7 +155,6 @@ function Invoice({ company, order }) {
             } else {
               price = parseInt(items?.wholeSalerPrice);
             }
-
             const Total = parseInt(items?.quantity) * price;
             const singlegst = (parseInt(price) / 100) * (2.5).toFixed(0);
             const Rate = parseInt(items?.quantity) * singlegst.toFixed(0);
@@ -167,8 +167,8 @@ function Invoice({ company, order }) {
                   <th rowspan="2">{items?.color}</th>
                   <th rowspan="2">{items?.size}</th>
                   <th rowspan="2">{items?.quantity}</th>
-                  <th rowspan="2">{price.toFixed(0)}</th>
-                  <th rowspan="2">{Total.toFixed(0)}</th>
+                  <th rowspan="2">{parseInt(price).toFixed(0)}</th>
+                  <th rowspan="2">{parseInt(Total).toFixed(0)}</th>
                   <th rowspan="2">2.50</th>
                 </tr>
 

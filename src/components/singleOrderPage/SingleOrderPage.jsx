@@ -60,6 +60,7 @@ function SingleOrderPage({ invoice }) {
             "auth-token": AdminDeatails.Token,
           },
         };
+        console.log(OrderID,"Dkckck");
         if (config) {
           const { data } = await axios.get(
             `/api/superAdmin/view-single-order/${parms.id}`,
@@ -142,10 +143,11 @@ function SingleOrderPage({ invoice }) {
               },
             ]);
           } catch (eror) {
-            swal("OOPS!", "Somthing Went Wrong!", "error");
+            swal("OOPS!", "Product Deleted!", "error");
           }
         });
       } catch (error) {
+        console.log("error");
         swal("OOPS!", "Somthing Went Wrong!", "error");
       }
     })();
