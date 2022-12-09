@@ -67,6 +67,142 @@ const names = [
   "sandybrown",
   "purple",
   "powderblue",
+  "yellowgreen",
+  "whitesmoke",
+  "wheat",
+  "turquoise",
+  "tomato",
+  "thistle",
+  "tan",
+  "steelblue",
+  "springgreen",
+  "snow",
+  "slategrey",
+  "slateblue",
+  "skyblue",
+  "silver",
+  "sienna",
+  "seashell",
+  "seagreen",
+  "sandybrown",
+  "salmon",
+  "saddlebrown",
+  "royalblue",
+  "rosybrown",
+  "powderblue",
+  "plum",
+  "pink",
+  "peru",
+  "peachpuff",
+  "papayawhip",
+  "palevioletred",
+  "paleturquoise",
+  "palegreen",
+  "palegoldenrod",
+  "orchid",
+  "orangered",
+  "orange",
+  "olivedrab",
+  "olive",
+  "oldlace",
+  "navy",
+  "navajowhite",
+  "moccasin",
+  "mistyrose",
+  "mintcream",
+  "midnightblue",
+  "mediumvioletred",
+  "mediumturquoise",
+  "mediumspringgreen",
+  "mediumslateblue",
+  "mediumseagreen",
+  "mediumpurple",
+  "mediumorchid",
+  "mediumblue",
+  "mediumaquamarine",
+  "maroon",
+  "magenta",
+  "linen",
+  "limegreen",
+  "lime",
+  "lightsteelblue",
+  "lightslategrey",
+  "lightslategray",
+  "lightskyblue",
+  "lightsalmon",
+  "lightseagreen",
+  "lightpink",
+  "lightgrey",
+  "lightgreen",
+  "lightgoldenrodyellow",
+  "lightcyan",
+  "lightcoral",
+  "lightblue",
+  "lemonchiffon",
+  "lawngreen",
+  "lavenderblush",
+  "lavender",
+  "khaki",
+  "ivory",
+  "indigo",
+  "indianred",
+  "hotpink",
+  "honeydew",
+  "grey",
+  "greenyellow",
+  "green",
+  "gray",
+  "goldenrod",
+  "gold",
+  "ghostwhite",
+  "gainsboro",
+  "fuchsia",
+  "forestgreen",
+  "firebrick",
+  "dodgerblue",
+  "dimgrey",
+  "dimgray",
+  "deepskyblue",
+  "deeppink",
+  "darkviolet",
+  "darkturquoise",
+  "darkslategrey",
+  "darkslateblue",
+  "darkseagreen",
+  "darksalmon",
+  "darkred",
+  "darkorchid",
+  "darkorange",
+  "darkolivegreen",
+  "darkmagenta",
+  "darkkhaki",
+  "darkgrey",
+  "darkgreen",
+  "darkgray",
+  "darkgoldenrod",
+  "darkcyan",
+  "darkblue",
+  "cyan",
+  "crimson",
+  "cornsilk",
+  "cornflowerblue",
+  "coral",
+  "chocolate",
+  "chartreuse",
+  "cadetblue",
+  "burlywood",
+  "brown",
+  "blueviolet",
+  "blue",
+  "blanchedalmond",
+  "black-1",
+  "bisque",
+  "beige",
+  "azure",
+  "aquamarine",
+  "aqua",
+  "antiquewhite",
+  "aliceblue",
 ];
 const tagsName = [
   "ladies",
@@ -194,7 +330,7 @@ export default function FormPropsTextFields() {
         `/api/superAdmin/get-sinlge-Produt/${params.id}`,
         config
       );
-    
+
       data.image.map((item) => {
         productImages.push(item);
       });
@@ -240,9 +376,7 @@ export default function FormPropsTextFields() {
       ChangeSize({ edit: true, target: { value: uniqueArray } });
       ChangeColor({ edit: true, target: { value: color } });
       handleTag({ edit: true, target: { value: data.tag } });
-    } catch (error) {
-    
-    }
+    } catch (error) {}
   }, []);
 
   //add tag name
@@ -271,7 +405,6 @@ export default function FormPropsTextFields() {
 
   //image uploding function
   const Imageupload = () => {
-  
     var myWidget = window.cloudinary.openUploadWidget(
       {
         cloudName: "dq06v1dnz",
@@ -834,15 +967,14 @@ export default function FormPropsTextFields() {
                               />
                             </TableCell>
                             <TableCell align="center">
-                              {editStock.map((status) => {   
-                      
+                              {editStock.map((status) => {
                                 if (
                                   status.colors == color[index] &&
                                   status.siz == row
                                 ) {
                                   Available = true;
-                                  setValue(row,status.sto);
-                                 
+                                  setValue(row, status.sto);
+
                                   return (
                                     <input
                                       key={index}
@@ -866,7 +998,6 @@ export default function FormPropsTextFields() {
                                   style={{ width: "60px", height: "40px" }}
                                   type="text"
                                   id="outlined-uncontrolled"
-                                 
                                   {...register(row, {
                                     required: "Invalid Number",
                                   })}

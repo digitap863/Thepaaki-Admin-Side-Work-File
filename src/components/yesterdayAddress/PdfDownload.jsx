@@ -32,11 +32,10 @@ function PdfDownload() {
   useEffect(() => {
     (async function () {
       let date = new Date();
-   
       date.setDate(date.getDate() - 1);
-
       const month = date.getMonth() + 1;
       const Yesterday = date.getDate() + "/" + month + "/" + date.getFullYear();
+      console.log(Yesterday, "dmcm");
       try {
         const config = {
           headers: {
@@ -49,10 +48,9 @@ function PdfDownload() {
           { Yesterday },
           config
         );
+
         setYesterday(data);
-      } catch (error) {
-     
-      }
+      } catch (error) {}
     })();
   }, []);
 
@@ -68,23 +66,19 @@ function PdfDownload() {
               <>
                 <View style={styles.section}>
                   <Text>TO:</Text>
-                  <Text style={{ textTransform: "uppercase" }}>
+                  <Text>
                     {items.Address.Name} {items.Address.LastName}
                   </Text>
-                  <Text style={{ textTransform: "uppercase" }}>
-                    {items.Address.StreetAddress}
-                  </Text>
-                  <Text style={{ textTransform: "uppercase" }}>
+                  <Text>{items.Address.StreetAddress}</Text>
+                  <Text>
                     {items.Address.Pincode},{items.Address.TownCity},
                     {items.Address.State}
                   </Text>
-                  <Text style={{ textTransform: "uppercase" }}>
-                    {items.Address.PhoneNumber}
-                  </Text>
+                  <Text>{items.Address.PhoneNumber}</Text>
                 </View>
                 <View style={styles.section}>
                   <Text>FROM:</Text>
-                  {items.user? (
+                  {items.user ? (
                     <>
                       <Text>MOFFA CLOTHING</Text>
                       <Text>1st FLOOR,62/9112</Text>
@@ -93,25 +87,20 @@ function PdfDownload() {
                     </>
                   ) : (
                     <>
-                      <Text style={{ textTransform: "uppercase" }}>
+                      <Text>
                         {items.FromAddress.FromName}{" "}
                         {items.FromAddress.FromLastName}
                       </Text>
-                      <Text style={{ textTransform: "uppercase" }}>
-                        {items.FromAddress.FromStreetAddress}
-                      </Text>
-                      <Text style={{ textTransform: "uppercase" }}>
+                      <Text>{items.FromAddress.FromStreetAddress}</Text>
+                      <Text>
                         {items.FromAddress.FromPincode},
                         {items.FromAddress.FromTownCity},
                         {items.FromAddress.FromState}
                       </Text>
-                      <Text style={{ textTransform: "uppercase" }}>
-                        {items.FromAddress.FromPhoneNumber}
-                      </Text>
+                      <Text>{items.FromAddress.FromPhoneNumber}</Text>
                     </>
                   )}
                 </View>
-         
               </>
             );
           })}

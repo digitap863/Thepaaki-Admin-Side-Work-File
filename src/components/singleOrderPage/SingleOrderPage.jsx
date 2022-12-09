@@ -334,13 +334,13 @@ function SingleOrderPage({ invoice }) {
               {wallet ? parseInt(wallet) + TotalAmount : TotalAmount}
             </b>
           </div>
-          <div className="ms-3">
+          <div className="ms-3" style={{textTransform:"uppercase"}}>
             <b>TO:</b>
             <br />
             <p>
               {address?.Name},{address?.Lastname}
               <br />
-              {address?.StreetAddress},{address?.TownCity},{address?.Pincode}
+              {address?.StreetAddress}<br></br>{address?.TownCity},{address?.Pincode},{address?.State}
               <br />
               {address?.Email}
               <br />
