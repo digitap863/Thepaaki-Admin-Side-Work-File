@@ -157,7 +157,7 @@ function Invoice({ company, order }) {
               price = parseInt(items?.wholeSalerPrice);
             }
             const Total = parseInt(items?.quantity) * price;
-            const singlegst = (parseInt(price) / 100) * (2.5).toFixed(0);
+            const singlegst = (parseInt(price) / 100) * 2.5;
             const Rate = parseInt(items?.quantity) * singlegst.toFixed(0);
             return (
               <>

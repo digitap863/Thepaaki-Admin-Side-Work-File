@@ -31,11 +31,11 @@ function PdfDownload() {
   const AdminDeatails = useSelector((state) => state.admin.value);
   useEffect(() => {
     (async function () {
-      let date = new Date();
-      date.setDate(date.getDate() - 1);
-      const month = date.getMonth() + 1;
-      const Yesterday = date.getDate() + "/" + month + "/" + date.getFullYear();
-      console.log(Yesterday, "dmcm");
+      const todayDate = new Date().getDate() - 1;
+      const todayMonth = new Date().getMonth() + 1;
+      const todayFullyear = new Date().getFullYear();
+      const Yesterday = todayDate + "/" + todayMonth + "/" + todayFullyear;
+
       try {
         const config = {
           headers: {
@@ -50,7 +50,9 @@ function PdfDownload() {
         );
 
         setYesterday(data);
-      } catch (error) {}
+      } catch (error) {
+        
+      }
     })();
   }, []);
 

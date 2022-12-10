@@ -357,16 +357,18 @@ export default function FormPropsTextFields() {
         color.push(items.color);
         ColorsImage.push(items.image);
         items.size.map((sizes) => {
+         
           size.push(sizes.name);
           setValue(`Bustline${sizes.name}`, sizes.Bustline);
           setValue(`Length${sizes.name}`, sizes.Length);
           setValue(`Hip${sizes.name}`, sizes.Hip);
           setValue(`Hip${sizes.name}`, sizes.Hip);
           setValue(`Sleeve${sizes.name}`, sizes.Sleeve);
+
           editStock.push({
             colors: items.color,
             siz: sizes.name,
-            sto: sizes.stock,
+            sto: sizes.stock ? sizes.stock : 0,
           });
         });
       });
@@ -444,7 +446,7 @@ export default function FormPropsTextFields() {
       if (data.M > 0) {
         stoke.push({
           name: "M",
-          stock: data.M,
+          stock: parseInt(data.M),
           Bustline: data.BustlineM,
           Length: data.LengthM,
           Hip: data.HipM,
@@ -454,7 +456,7 @@ export default function FormPropsTextFields() {
       if (data.S > 0) {
         stoke.push({
           name: "S",
-          stock: data.S,
+          stock: parseInt(data.S),
           Bustline: data.BustlineS,
           Length: data.LengthS,
           Hip: data.HipS,
@@ -464,7 +466,7 @@ export default function FormPropsTextFields() {
       if (data.L > 0) {
         stoke.push({
           name: "L",
-          stock: data.L,
+          stock: parseInt(data.L),
           Bustline: data.BustlineL,
           Length: data.LengthL,
           Hip: data.HipL,
@@ -474,7 +476,7 @@ export default function FormPropsTextFields() {
       if (data.XL > 0) {
         stoke.push({
           name: "XL",
-          stock: data.XL,
+          stock: parseInt(data.XL),
           Bustline: data.BustlineXL,
           Length: data.LengthXL,
           Hip: data.HipXL,
@@ -484,7 +486,7 @@ export default function FormPropsTextFields() {
       if (data.XXL > 0) {
         stoke.push({
           name: "XXL",
-          stock: data.XXL,
+          stock: parseInt(data.XXL),
           Bustline: data.BustlineXXL,
           Length: data.LengthXXL,
           Hip: data.HipXXL,
@@ -494,7 +496,7 @@ export default function FormPropsTextFields() {
       if (data.XXXL > 0) {
         stoke.push({
           name: "XXXL",
-          stock: data.XXXL,
+          stock: parseInt(data.XXXL),
           Bustline: data.BustlineXXXL,
           Length: data.LengthXXXL,
           Hip: data.HipXXXL,
@@ -973,7 +975,7 @@ export default function FormPropsTextFields() {
                                   status.siz == row
                                 ) {
                                   Available = true;
-                                  setValue(row, status.sto);
+                                  setValue(row, status.sto ? status.sto : 0);
 
                                   return (
                                     <input
@@ -992,12 +994,14 @@ export default function FormPropsTextFields() {
                                   );
                                 }
                               })}
+
                               {!Available && (
                                 <input
                                   key={index}
                                   style={{ width: "60px", height: "40px" }}
                                   type="text"
                                   id="outlined-uncontrolled"
+                                  value={0}
                                   {...register(row, {
                                     required: "Invalid Number",
                                   })}
