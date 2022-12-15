@@ -90,6 +90,12 @@ const Sidebar = () => {
                   <span>Admin Manage</span>
                 </li>
               </Link>
+              <Link to="/view-wallet-info" style={{ textDecoration: "none" }}>
+                <li>
+                  <StoreIcon className="icon" />
+                  <span>Wallet Info</span>
+                </li>
+              </Link>
             </>
           )}
           <Link to="/banner-manage" style={{ textDecoration: "none" }}>

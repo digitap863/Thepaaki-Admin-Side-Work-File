@@ -67,6 +67,7 @@ function PdfDownload() {
             return (
               <>
                 <View style={styles.section}>
+                  <Text>ORDER ID:{items.Id}</Text>
                   <Text>TO:</Text>
                   <Text>
                     {items.Address.Name} {items.Address.LastName}

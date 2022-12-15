@@ -297,6 +297,7 @@ export default function FormPropsTextFields() {
   const navigate = useNavigate();
   var Available = false;
   const { register, handleSubmit, trigger, reset, setValue } = useForm();
+  const { register:register2, handleSubmit:handleSubmit2, trigger:trigger2, reset:reset2,setValue:setValue2 } = useForm();
   const AdminDeatails = useSelector((state) => state.admin.value);
   const ChangeColor = (event) => {
     const {
@@ -508,8 +509,9 @@ export default function FormPropsTextFields() {
         image: image,
         size: stoke,
       };
-
+      if(obj.size[0]){
       varitaion.push(obj);
+      }
       setImage("");
       setStoke([]);
       const inc = index + 1;
@@ -522,6 +524,7 @@ export default function FormPropsTextFields() {
 
   const onProduct = async (datas) => {
     if (productImages[1] && varitaion[0] && Tag[0]) {
+      console.log(varitaion,"");
       try {
         const config = {
           headers: {
@@ -640,7 +643,7 @@ export default function FormPropsTextFields() {
               </div>
               <div className="col-lg-4 col-md-6">
                 <TextField
-                  InputLabelProps={{ shrink: true }}
+                  InputLabelProps={{ shrink: true }}  
                   id="outlined-select-currency"
                   select
                   label="Select"
@@ -990,18 +993,24 @@ export default function FormPropsTextFields() {
                                       onKeyUp={() => {
                                         trigger(row);
                                       }}
+                                  
                                     />
                                   );
+                                }else{
+
+                                  if(status.colors == color[index] && status.siz != row&&!Available ){
+                                    setValue(row,0)
+                                  }
+                                  
                                 }
                               })}
 
-                              {!Available && (
+                              {!Available && (    
                                 <input
                                   key={index}
                                   style={{ width: "60px", height: "40px" }}
                                   type="text"
                                   id="outlined-uncontrolled"
-                                  value={0}
                                   {...register(row, {
                                     required: "Invalid Number",
                                   })}

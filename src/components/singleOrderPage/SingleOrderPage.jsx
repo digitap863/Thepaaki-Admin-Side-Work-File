@@ -42,6 +42,7 @@ function SingleOrderPage({ invoice }) {
   const handleClose = () => setOpen(false);
   const [dispatchButton, setDispatchButton] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [barcodeInputValue, updateBarcodeInputValue] = useState("");
 
   const parms = useParams();
@@ -60,20 +61,29 @@ function SingleOrderPage({ invoice }) {
             "auth-token": AdminDeatails.Token,
           },
         };
-   
+
         if (config) {
           const { data } = await axios.get(
             `/api/superAdmin/view-single-order/${parms.id}`,
             config
           );
           setSingelOrder(data);
-       
+
           single = data;
           if (!data.user) {
             setFromAddress(data.FromAddress);
           }
-          const phone = data.Address.PhoneNumber;
-          setPhone(phone);
+          if (data?.smsphone) {
+            const phone = data.smsphone;
+            setPhone(phone);
+          } else {
+            const phone = data.Address.PhoneNumber;
+            setPhone(phone);
+          }
+          if (data?.userEmail) {
+            const emailAddres = data.userEmail;
+            setEmail(emailAddres);
+          }
           setDispatchButton(data.status);
           if (data.Offer) {
             setOffer(data.Offer);
@@ -147,7 +157,6 @@ function SingleOrderPage({ invoice }) {
           }
         });
       } catch (error) {
-
         swal("OOPS!", "Somthing Went Wrong!", "error");
       }
     })();
@@ -174,7 +183,7 @@ function SingleOrderPage({ invoice }) {
       };
       const { data } = await axios.post(
         "/api/superAdmin/dispatch-order",
-        { TrackingId, OrderID, phone, link, Courier },
+        { TrackingId, OrderID, phone, link, Courier, email },
         config
       );
       navigate("/all-orders");
@@ -249,7 +258,7 @@ function SingleOrderPage({ invoice }) {
                   className=" btn btn-primary mt-2"
                   onClick={dispatchOrder}
                 >
-                  Submit 
+                  Submit
                 </button>
               </div>
             </Box>
@@ -334,13 +343,15 @@ function SingleOrderPage({ invoice }) {
               {wallet ? parseInt(wallet) + TotalAmount : TotalAmount}
             </b>
           </div>
-          <div className="ms-3" style={{textTransform:"uppercase"}}>
+          <div className="ms-3" style={{ textTransform: "uppercase" }}>
             <b>TO:</b>
             <br />
             <p>
               {address?.Name},{address?.Lastname}
               <br />
-              {address?.StreetAddress}<br></br>{address?.TownCity},{address?.Pincode},{address?.State}
+              {address?.StreetAddress}
+              <br></br>
+              {address?.TownCity},{address?.Pincode},{address?.State}
               <br />
               {address?.Email}
               <br />

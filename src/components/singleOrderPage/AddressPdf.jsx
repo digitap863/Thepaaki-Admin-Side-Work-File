@@ -4,7 +4,7 @@ function AddressPdf({ company, useraddress, fromaddress }) {
   return (
     <div
       ref={company}
-      style={{ width: "100%", height: window.innerHeight, display: "flex"}}
+      style={{ width: "100%", height: window.innerHeight, display: "flex" }}
     >
       <div
         style={{

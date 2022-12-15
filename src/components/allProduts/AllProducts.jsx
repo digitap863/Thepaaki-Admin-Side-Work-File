@@ -238,7 +238,7 @@ function Alluser() {
     >
       <DataTableExtensions {...tableData}>
         <DataTable
-          title={"User Deatails"}
+          title={"PRODUCTS"}
           columns={columns}
           data={data}
           defaultSortField="id"

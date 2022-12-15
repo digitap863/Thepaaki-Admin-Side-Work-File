@@ -16,6 +16,7 @@ import Dispatachorders from "./pages/dispatchOrders/DispatchOrders";
 import PdfDownload from "./components/yesterdayAddress/PdfDownload";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import EditPage from "./pages/EditProductPage/EditPage";
+import WalletInfo from "./pages/walletInfo/WalletInfo"
 import { userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
@@ -82,6 +83,10 @@ function App() {
             <Route path="/download-yesterday-address">
               <Route index element={<PdfDownload />} />
             </Route>
+            <Route path="/view-wallet-info">
+              <Route index element={<WalletInfo />} />
+            </Route>
+            
           
         </Routes>
       </BrowserRouter>
