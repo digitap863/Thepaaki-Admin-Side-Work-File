@@ -297,7 +297,13 @@ export default function FormPropsTextFields() {
   const navigate = useNavigate();
   var Available = false;
   const { register, handleSubmit, trigger, reset, setValue } = useForm();
-  const { register:register2, handleSubmit:handleSubmit2, trigger:trigger2, reset:reset2,setValue:setValue2 } = useForm();
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    trigger: trigger2,
+    reset: reset2,
+    setValue: setValue2,
+  } = useForm();
   const AdminDeatails = useSelector((state) => state.admin.value);
   const ChangeColor = (event) => {
     const {
@@ -358,8 +364,8 @@ export default function FormPropsTextFields() {
         color.push(items.color);
         ColorsImage.push(items.image);
         items.size.map((sizes) => {
-         
           size.push(sizes.name);
+
           setValue(`Bustline${sizes.name}`, sizes.Bustline);
           setValue(`Length${sizes.name}`, sizes.Length);
           setValue(`Hip${sizes.name}`, sizes.Hip);
@@ -509,8 +515,77 @@ export default function FormPropsTextFields() {
         image: image,
         size: stoke,
       };
-      if(obj.size[0]){
-      varitaion.push(obj);
+      if (obj.size[0]) {
+        varitaion.push(obj);
+      } else {
+        size.map((availabel) => {
+          if (availabel == "M") {
+            stoke.push({
+              name: "M",
+              stock: 0,
+              Bustline: data.BustlineM,
+              Length: data.LengthM,
+              Hip: data.HipM,
+              Sleeve: data.SleeveM,
+            });
+          }
+          if (availabel == "S") {
+            stoke.push({
+              name: "S",
+              stock: 0,
+              Bustline: data.BustlineS,
+              Length: data.LengthS,
+              Hip: data.HipS,
+              Sleeve: data.SleeveS,
+            });
+          }
+          if (availabel == "L") {
+            stoke.push({
+              name: "L",
+              stock: 0,
+              Bustline: data.BustlineL,
+              Length: data.LengthL,
+              Hip: data.HipL,
+              Sleeve: data.SleeveL,
+            });
+          }
+          if (availabel == "XL") {
+            stoke.push({
+              name: "XL",
+              stock: 0,
+              Bustline: data.BustlineXL,
+              Length: data.LengthXL,
+              Hip: data.HipXL,
+              Sleeve: data.SleeveXL,
+            });
+          }
+          if (availabel == "XXL") {
+            stoke.push({
+              name: "XXL",
+              stock: 0,
+              Bustline: data.BustlineXXL,
+              Length: data.LengthXXL,
+              Hip: data.HipXXL,
+              Sleeve: data.SleeveXXL,
+            });
+          }
+          if (availabel == "XXXL") {
+            stoke.push({
+              name: "XXXL",
+              stock: 0,
+              Bustline: data.BustlineXXXL,
+              Length: data.LengthXXXL,
+              Hip: data.HipXXXL,
+              Sleeve: data.SleeveXXXL,
+            });
+          }
+        });
+        const objs = {
+          color: color[index],
+          image: image,
+          size: stoke,
+        };
+        varitaion.push(objs);
       }
       setImage("");
       setStoke([]);
@@ -518,13 +593,13 @@ export default function FormPropsTextFields() {
       setIndex(inc);
       setImage(ColorsImage[inc]);
     } else {
-      swal("OOPS!", "Please Update Image!", "info");
+      swal("OOPS!", "Please Update Image!", "info");  
     }
   };
 
   const onProduct = async (datas) => {
     if (productImages[1] && varitaion[0] && Tag[0]) {
-      console.log(varitaion,"");
+     
       try {
         const config = {
           headers: {
@@ -564,6 +639,8 @@ export default function FormPropsTextFields() {
       swal("OOPS!", "Please Update Field!", "info");
     }
   };
+
+  console.log(size, "dfjcknm");
 
   const deleteProdutImage = (index) => {
     const test = [...productImages];
@@ -643,7 +720,7 @@ export default function FormPropsTextFields() {
               </div>
               <div className="col-lg-4 col-md-6">
                 <TextField
-                  InputLabelProps={{ shrink: true }}  
+                  InputLabelProps={{ shrink: true }}
                   id="outlined-select-currency"
                   select
                   label="Select"
@@ -993,19 +1070,20 @@ export default function FormPropsTextFields() {
                                       onKeyUp={() => {
                                         trigger(row);
                                       }}
-                                  
                                     />
                                   );
-                                }else{
-
-                                  if(status.colors == color[index] && status.siz != row&&!Available ){
-                                    setValue(row,0)
+                                } else {
+                                  if (
+                                    status.colors == color[index] &&
+                                    status.siz != row &&
+                                    !Available
+                                  ) {
+                                    setValue(row, 0);
                                   }
-                                  
                                 }
                               })}
 
-                              {!Available && (    
+                              {!Available && (
                                 <input
                                   key={index}
                                   style={{ width: "60px", height: "40px" }}

@@ -357,8 +357,8 @@ export default function FormPropsTextFields() {
   const Imageupload = () => {
     var myWidget = window.cloudinary.openUploadWidget(
       {
-        cloudName: "dq06v1dnz",
-        uploadPreset: "thepaaki",
+        cloudName: "dk8efhvbn",
+        uploadPreset: "z0mb5p1h",
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
@@ -373,8 +373,8 @@ export default function FormPropsTextFields() {
   const PriductImageupload = () => {
     var myWidget = window.cloudinary.openUploadWidget(
       {
-        cloudName: "dq06v1dnz",
-        uploadPreset: "thepaaki",
+        cloudName: "dk8efhvbn",
+        uploadPreset: "z0mb5p1h",
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
