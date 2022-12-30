@@ -57,12 +57,10 @@ function AllOrder() {
       ),
     },
   ];
-
   const tableData = {
     columns,
     data,
   };
-
   useEffect(() => {
     (async function () {
       try {

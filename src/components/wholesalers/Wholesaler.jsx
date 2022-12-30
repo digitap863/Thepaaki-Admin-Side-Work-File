@@ -34,6 +34,7 @@ function Alluser() {
   const AdminDeatails = useSelector((state) => state.admin.value);
   const [open, setOpen] = React.useState(false);
   const [wholsealerEditId, setWholesalerEditId] = useState();
+  const [hidde, setHidde] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -80,7 +81,7 @@ function Alluser() {
             onClick={() => {
               editHandler(row._id, row.wallet);
             }}
-          /> 
+          />
         </>
       ),
     },
@@ -125,7 +126,7 @@ function Alluser() {
 
             const { data } = await axios.post(
               `/api/superAdmin/convert-user/${id}`,
-              {},
+            
               config
             );
 
@@ -156,7 +157,7 @@ function Alluser() {
     handleOpen();
   };
   const handleClick = async () => {
-  
+    setHidde(true);
     const id = wholsealerEditId;
     const amoun = amount;
     try {
@@ -171,13 +172,15 @@ function Alluser() {
         { amoun, id },
         config
       );
-      setLoading(true); 
+      setHidde(false);
+      setLoading(true);
       setLoading(false);
-      handleClose();  
-      swal("success", { 
+      handleClose();
+      swal("success", {
         icon: "success",
       });
     } catch (eror) {
+      setHidde(false);
       swal("OOPS!", "Somthing Went Wrong!", "error");
     }
   };
@@ -217,9 +220,19 @@ function Alluser() {
               ></input>
             </div>
             <div className="mt-4 text-center">
-              <button className="btn btn-primary" onClick={handleClick}>
-                submit
-              </button>
+              {hidde ? (
+                <button
+                  className="btn btn-primary"
+                  onClick={handleClick}
+                  disabled
+                >
+                  submit
+                </button>
+              ) : (
+                <button className="btn btn-primary" onClick={handleClick}>
+                  submit
+                </button>
+              )}
             </div>
           </Box>
         </Fade>

@@ -130,16 +130,31 @@ function Invoice({ company, order }) {
             <th rowspan="2">Quantity</th>
             <th rowspan="2">Price</th>
             <th rowspan="2">Net Total</th>
-            <th colSpan="2">CGST</th>
-            <th colSpan="2">SGST</th>
+            {order.Address?.State == "Kerala" ? (
+              <>
+                <th colSpan="2">CGST</th>
+                <th colSpan="2">SGST</th>
+              </>
+            ) : (
+              <th colSpan="2">IGST</th>
+            )}
             <th rowspan="2">Total</th>
           </tr>
 
           <tr>
-            <th>Rate</th>
-            <th>Amt.</th>
-            <th>Rate</th>
-            <th>Amt.</th>
+            {order.Address?.State == "Kerala" ? (
+              <>
+                <th>Rate</th>
+                <th>Amt.</th>
+                <th>Rate</th>
+                <th>Amt.</th>
+              </>
+            ) : (
+              <>
+                <th>Rate</th>
+                <th>Amt.</th>
+              </>
+            )}
           </tr>
           {order.Product?.map((items, index) => {
             let price;
@@ -169,14 +184,28 @@ function Invoice({ company, order }) {
                   <th rowspan="2">{items?.quantity}</th>
                   <th rowspan="2">{parseInt(price).toFixed(0)}</th>
                   <th rowspan="2">{parseInt(Total).toFixed(0)}</th>
-                  <th rowspan="2">2.50</th>
+                  {order.Address?.State == "Kerala" ? (
+                    <th rowspan="2">2.50%</th>
+                  ) : (
+                    <th rowspan="2">5%</th>
+                  )}
                 </tr>
 
                 <tr>
-                  <th>{Rate}</th>
-                  <th>2.50</th>
-                  <th>{Rate}</th>
-                  <th>{Total.toFixed(0)}</th>
+                  {order.Address?.State == "Kerala" ? (
+                    <>
+                      {" "}
+                      <th>{Rate}</th>
+                      <th>2.50%</th>
+                      <th>{Rate}</th>
+                      <th>{Total.toFixed(0)}</th>
+                    </>
+                  ) : (<>
+                    <th>{2 * Rate}</th>
+                    <th>{Total.toFixed(0)}</th>
+                    </>
+                  )}
+            
                 </tr>
               </>
             );
