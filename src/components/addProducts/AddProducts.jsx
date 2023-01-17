@@ -48,6 +48,7 @@ const names = [
   "silver",
   "maroon",
   "purple",
+  "purple-2",
   "fuchsia",
   "lime",
   "olive",
@@ -213,7 +214,7 @@ const tagsName = [
   "kurthi",
 ];
 
-const sizeChart = ["S", "M", "L", "XL", "XXL", "XXXL"];
+const sizeChart = ["S", "M", "L", "XL", "XXL", "XXXL", "XXXXL", "XXXXXL"];
 
 function getStyles(name, personName, theme) {}
 
@@ -449,6 +450,26 @@ export default function FormPropsTextFields() {
           Length: data.LengthXXXL,
           Hip: data.HipXXXL,
           Sleeve: data.SleeveXXXL,
+        });
+      }
+      if (data.XXXXL > 0) {
+        stoke.push({
+          name: "XXXXL",
+          stock: data.XXXXL,
+          Bustline: data.BustlineXXXXL,
+          Length: data.LengthXXXXL,
+          Hip: data.HipXXXXL,
+          Sleeve: data.SleeveXXXXL,
+        });
+      }
+      if (data.XXXXXL > 0) {
+        stoke.push({
+          name: "XXXXXL",
+          stock: data.XXXXXL,
+          Bustline: data.BustlineXXXXXL,
+          Length: data.LengthXXXXXL,
+          Hip: data.HipXXXXXL,
+          Sleeve: data.SleeveXXXXXL,
         });
       }
       const obj = {

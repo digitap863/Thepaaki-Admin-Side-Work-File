@@ -96,6 +96,15 @@ const Sidebar = () => {
                   <span>Wallet Info</span>
                 </li>
               </Link>
+              <Link
+                to="/monthly-invoice-download"
+                style={{ textDecoration: "none" }}
+              >
+                <li>
+                  <StoreIcon className="icon" />
+                  <span>Monthly Invoice</span>
+                </li>
+              </Link>
             </>
           )}
           <Link to="/banner-manage" style={{ textDecoration: "none" }}>

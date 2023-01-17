@@ -48,6 +48,7 @@ const names = [
   "silver",
   "maroon",
   "purple",
+  "purple-2",
   "fuchsia",
   "lime",
   "olive",
@@ -213,7 +214,7 @@ const tagsName = [
   "kurthi",
 ];
 
-const sizeChart = ["S", "M", "L", "XL", "XXL", "XXXL"];
+const sizeChart = ["S", "M", "L", "XL", "XXL", "XXXL", "XXXXL", "XXXXXL"];
 
 function getStyles(name, personName, theme) {}
 
@@ -416,8 +417,8 @@ export default function FormPropsTextFields() {
   const Imageupload = () => {
     var myWidget = window.cloudinary.openUploadWidget(
       {
-        cloudName: "dq06v1dnz",
-        uploadPreset: "thepaaki",
+        cloudName: "dk8efhvbn",
+        uploadPreset: "z0mb5p1h",
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
@@ -432,8 +433,8 @@ export default function FormPropsTextFields() {
   const PriductImageupload = () => {
     var myWidget = window.cloudinary.openUploadWidget(
       {
-        cloudName: "dq06v1dnz",
-        uploadPreset: "thepaaki",
+        cloudName: "dk8efhvbn",
+        uploadPreset: "z0mb5p1h",
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
@@ -510,6 +511,26 @@ export default function FormPropsTextFields() {
           Sleeve: data.SleeveXXXL,
         });
       }
+      if (data.XXXXL > 0) {
+        stoke.push({
+          name: "XXXXL",
+          stock: parseInt(data.XXXXL),
+          Bustline: data.BustlineXXXXL,
+          Length: data.LengthXXXXL,
+          Hip: data.HipXXXXL,
+          Sleeve: data.SleeveXXXXL,
+        });
+      }
+      if (data.XXXXXL > 0) {
+        stoke.push({
+          name: "XXXXXL",
+          stock: parseInt(data.XXXXXL),
+          Bustline: data.BustlineXXXXXL,
+          Length: data.LengthXXXXXL,
+          Hip: data.HipXXXXXL,
+          Sleeve: data.SleeveXXXXXL,
+        });
+      }
       const obj = {
         color: color[index],
         image: image,
@@ -579,6 +600,26 @@ export default function FormPropsTextFields() {
               Sleeve: data.SleeveXXXL,
             });
           }
+          if (availabel == "XXXXL") {
+            stoke.push({
+              name: "XXXXL",
+              stock: 0,
+              Bustline: data.BustlineXXXXL,
+              Length: data.LengthXXXXL,
+              Hip: data.HipXXXXL,
+              Sleeve: data.SleeveXXXXL,
+            });
+          }
+          if (availabel == "XXXXXL") {
+            stoke.push({
+              name: "XXXXXL",
+              stock: 0,
+              Bustline: data.BustlineXXXXXL,
+              Length: data.LengthXXXXXL,
+              Hip: data.HipXXXXXL,
+              Sleeve: data.SleeveXXXXXL,
+            });
+          }
         });
         const objs = {
           color: color[index],
@@ -593,13 +634,12 @@ export default function FormPropsTextFields() {
       setIndex(inc);
       setImage(ColorsImage[inc]);
     } else {
-      swal("OOPS!", "Please Update Image!", "info");  
+      swal("OOPS!", "Please Update Image!", "info");
     }
   };
 
   const onProduct = async (datas) => {
     if (productImages[1] && varitaion[0] && Tag[0]) {
-     
       try {
         const config = {
           headers: {
@@ -633,14 +673,12 @@ export default function FormPropsTextFields() {
         });
         navigate("/view-all-products");
       } catch (error) {
-        swal("OOPS!", "Somthing Went Wrong!", "error");
+        swal("OOPS!", "Something Went Wrong!", "error");
       }
     } else {
       swal("OOPS!", "Please Update Field!", "info");
     }
   };
-
-  console.log(size, "dfjcknm");
 
   const deleteProdutImage = (index) => {
     const test = [...productImages];

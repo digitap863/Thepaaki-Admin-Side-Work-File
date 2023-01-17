@@ -60,7 +60,6 @@ export default function FormPropsTextFields() {
     const OFFER = data.OFFER;
     const DealImage = image;
     const date = value.$d.toLocaleDateString();
- 
 
     try {
       const config = {
@@ -94,7 +93,6 @@ export default function FormPropsTextFields() {
       buttons: true,
       dangerMode: true,
     }).then(async (willDelete) => {
-
       if (willDelete) {
         try {
           const config = {
@@ -124,13 +122,13 @@ export default function FormPropsTextFields() {
   const Imageupload = () => {
     var myWidget = window.cloudinary.openUploadWidget(
       {
-        cloudName: "dq06v1dnz",
-        uploadPreset: "thepaaki",
+        cloudName: "dk8efhvbn",
+        uploadPreset: "z0mb5p1h",
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
           setImage(result.info.url);
-         
+
           // setImage((prev) => [
           //   ...prev,
           //   { url: result.info.url, public_id: result.info.public_id },

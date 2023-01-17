@@ -50,7 +50,7 @@ function Alluser() {
           "/api/superAdmin/view-all-wallet-info",
           config
         );
-        console.log(data);
+      
         setData(data);
       } catch (error) {
         swal("OOPS!", "Somthing Went Wrong!", "error");

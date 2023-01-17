@@ -58,7 +58,7 @@ function AllOrder() {
     },
   ];
   const tableData = {
-    columns,
+    columns, 
     data,
   };
   useEffect(() => {
@@ -77,12 +77,12 @@ function AllOrder() {
         setData(data);
       } catch (error) {
         swal({
-          title: "NO RECODS",
+          title: "NO RECODES",
           text: "Once deleted, you will not be able to recover this data file!",
           icon: "warning",
           buttons: true,
           dangerMode: true,
-        });
+        }); 
       }
     })();
   }, []);
@@ -97,7 +97,7 @@ function AllOrder() {
     >
       <DataTableExtensions {...tableData}>
         <DataTable
-          title={"Dispatch Orders"}
+          title={"Dispatched Orders"}
           columns={columns}
           data={data}
           defaultSortField="id"

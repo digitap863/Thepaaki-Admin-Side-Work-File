@@ -45,7 +45,7 @@ function Alluser() {
       try {
         const config = {
           headers: {
-            "Content-type": "application/json",
+            "Content-type": "application/json", 
             "auth-token": AdminDeatails.Token,
           },
         };
@@ -179,7 +179,6 @@ function Alluser() {
   //           );
   //           setLoading(true);
   //           setLoading(false);
-  //           console.log(data);
   //           swal("Do You Want Delete!", {
   //             icon: "success",
   //           });
@@ -194,7 +193,6 @@ function Alluser() {
 
   //delete user function
   const deleteProducts = async (id) => {
-   
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this data file!",
@@ -215,7 +213,7 @@ function Alluser() {
             {},
             config
           );
-       
+
           setLoading(true);
           setLoading(false);
           swal("Good job!", "You clicked the button!", "success");
@@ -266,7 +264,7 @@ function Alluser() {
                   <tr>
                     <th scope="col">COLOR</th>
                     <th scope="col">IMAGE</th>
-                    <th scope="col">SIZE-STOKE</th>
+                    <th scope="col">SIZE-STOCK</th>
                   </tr>
                 </thead>
                 <tbody>

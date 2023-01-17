@@ -21,6 +21,7 @@ import { userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
+import MonthlyInvoice from "./pages/monthly-invoice/MonthlyInvoice";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -87,6 +88,9 @@ function App() {
               <Route index element={<WalletInfo />} />
             </Route>
             
+            <Route path="/monthly-invoice-download">
+              <Route index element={<MonthlyInvoice/>} />
+            </Route>
           
         </Routes>
       </BrowserRouter>

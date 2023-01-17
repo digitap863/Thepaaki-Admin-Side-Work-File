@@ -31,11 +31,13 @@ function PdfDownload() {
   const AdminDeatails = useSelector((state) => state.admin.value);
   useEffect(() => {
     (async function () {
-      const todayDate = new Date().getDate() - 1;
-      const todayMonth = new Date().getMonth() + 1;
-      const todayFullyear = new Date().getFullYear();
+      const date = new Date()
+      const previous = new Date(date.getTime());
+      previous.setDate(date.getDate() - 1);
+      const todayDate = previous.getDate();
+      const todayMonth = previous.getMonth() + 1;
+      const todayFullyear = previous.getFullYear();
       const Yesterday = todayDate + "/" + todayMonth + "/" + todayFullyear;
-
       try {
         const config = {
           headers: {
