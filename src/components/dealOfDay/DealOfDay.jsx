@@ -158,10 +158,31 @@ export default function FormPropsTextFields() {
       border: 0,
     },
   }));
+  const UploadImage = async (e) => {
+    const file = e.target.files[0];
+    const fileName = e.target.files[0].name;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", fileName);
+    try {
+      const { data } = await axios.post(
+        "/api/superAdmin/image-uploading",
+        formData
+      );
+      setImage(data.url);
+      // setImage((prev) => [
+      //   ...prev,
+      //   { url: result.info.url, public_id: result.info.public_id },
+      // ]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Box
       component="form"
+      enctype="multipart/form-data"
       onSubmit={handleSubmit(onSubmit)}
       sx={{
         "& .MuiTextField-root": { m: 1, width: "20ch" },
@@ -243,15 +264,12 @@ export default function FormPropsTextFields() {
             </div>
           </div>
           <div className="col-lg-3 col-md-6">
-            <i
-              onClick={Imageupload}
-              style={{ marginTop: "5%" }}
-              className="btn btn-primary "
-              variant="outlined"
-              color="primary"
-            >
-              UPLOAD IMAGE(570x525)
-            </i>
+            <input
+              type="file"
+              id="files"
+              className="form-control"
+              onChange={UploadImage}
+            />
           </div>
           <div className="col-lg-4 col-md-6">
             <button

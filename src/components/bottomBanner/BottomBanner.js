@@ -79,7 +79,6 @@ export default function FormPropsTextFields() {
             if (!error && result && result.event === "success") {
               const ID = id;
               const image = result.info.url;
-
               try {
                 const config = {
                   headers: {

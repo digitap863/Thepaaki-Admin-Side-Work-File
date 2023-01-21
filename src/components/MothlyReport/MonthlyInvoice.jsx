@@ -110,18 +110,29 @@ function MonthlyInvoice() {
             if (items.wallet) {
               items.Total = items.Total + parseInt(items.wallet);
             }
+            items.Total = items.Total - items.DeliveyCharge;
             items["HSN"] = 6204;
             const Total = items.Total;
             if (items.Address.State == "Kerala") {
-              items["CGST"] = (parseInt(Total) * 2.5) / 100;
-              items["SGST"] = (parseInt(Total) * 2.5) / 100;
+              const amount1 = ((parseInt(Total) / 105) * 100).toFixed(2);
+              const amount2 = parseInt(Total);
+              const amount3 = ((amount2 - amount1) / 2).toFixed(2);
+              items["CGST"] = amount3;
+              items["SGST"] = amount3;
+              items["IGST"] = (
+                parseInt(Total) -
+                (parseInt(Total) / 105) * 100
+              ).toFixed(2);
+              items["Amount"] = ((parseInt(Total) / 105) * 100).toFixed(2);
               items["IGST"] = 0;
-              items["Amount"] = parseInt(Total) - (parseInt(Total) * 5) / 100;
             } else {
               items["CGST"] = 0;
               items["SGST"] = 0;
-              items["IGST"] = (parseInt(Total) * 5) / 100;
-              items["Amount"] = parseInt(Total) - (parseInt(Total) * 5) / 100;
+              items["IGST"] = (
+                parseInt(Total) -
+                (parseInt(Total) / 105) * 100
+              ).toFixed(2);
+              items["Amount"] = ((parseInt(Total) / 105) * 100).toFixed(2);
             }
             updatedDetails.push(items);
           });

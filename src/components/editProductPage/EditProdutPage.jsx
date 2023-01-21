@@ -293,6 +293,7 @@ export default function FormPropsTextFields() {
   const [editStock, setEditStock] = useState([]);
   const [New, setNew] = useState(false);
   const [ColorsImage, setColorsImage] = useState([]);
+  const [saleCount, setsaleCount] = useState();
 
   const params = useParams();
   const navigate = useNavigate();
@@ -356,7 +357,7 @@ export default function FormPropsTextFields() {
       setValue("price", data.price);
       setValue("discount", data.discount);
       setValue("Description", data.shortDescription);
-
+      setsaleCount(data.saleCount);
       //   setRating(data.rating);
       //   handleChange(data.rating);
       let color = [];
@@ -414,38 +415,43 @@ export default function FormPropsTextFields() {
   };
 
   //image uploding function
-  const Imageupload = () => {
-    var myWidget = window.cloudinary.openUploadWidget(
-      {
-        cloudName: "dk8efhvbn",
-        uploadPreset: "z0mb5p1h",
-      },
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          setImage(result.info.url);
-        }
-      }
-    );
-    myWidget.open();
+  const Imageupload = async (e) => {
+    const file = e.target.files[0];
+    const fileName = e.target.files[0].name;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", fileName);
+    try {
+      const { data } = await axios.post(
+        "/api/superAdmin/image-uploading",
+        formData
+      );
+      setImage(data.url);
+      // setImage((prev) => [
+      //   ...prev,
+      //   { url: result.info.url, public_id: result.info.public_id },
+      // ]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //product image upload function
-  const PriductImageupload = () => {
-    var myWidget = window.cloudinary.openUploadWidget(
-      {
-        cloudName: "dk8efhvbn",
-        uploadPreset: "z0mb5p1h",
-      },
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          setProductImages((prev) => [
-            ...prev,
-            { url: result.info.url, public_id: result.info.public_id },
-          ]);
-        }
-      }
-    );
-    myWidget.open();
+  const PriductImageupload = async (e) => {
+    const file = e.target.files[0];
+    const fileName = e.target.files[0].name;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", fileName);
+    try {
+      const { data } = await axios.post(
+        "/api/superAdmin/image-uploading",
+        formData
+      );
+      setProductImages((prev) => [...prev, { url: data.url }]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //stock updation function with size adding included
@@ -657,7 +663,7 @@ export default function FormPropsTextFields() {
             wholesaler: datas.wholsalerPrice,
             new: true,
             rating: rating,
-            saleCount: 10,
+            saleCount: saleCount,
             tag: Tag,
             category: [Category],
             variation: varitaion,
@@ -919,14 +925,12 @@ export default function FormPropsTextFields() {
               </div>
               <div className="col-lg-4 col-md-6">
                 <FormControl sx={{ m: 1, width: "30ch" }}>
-                  <i
-                    onClick={PriductImageupload}
-                    className="btn btn-primary  pt-3 pb-3"
-                    variant="outlined"
-                    color="primary"
-                  >
-                    UPLOAD PRODUCT IMAGE(min-3)
-                  </i>
+                  <input
+                    onChange={PriductImageupload}
+                    className="form-control  pt-3 pb-3"
+                    type="file"
+                  />
+                  <label>UPLOAD IMAGE(600x800)</label>
                 </FormControl>
               </div>
               {productImages && (
@@ -979,14 +983,15 @@ export default function FormPropsTextFields() {
                 <TableContainer component={Paper} sx={{ marginTop: "5%" }}>
                   <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <caption>
-                      <i
-                        onClick={Imageupload}
-                        className="btn btn-primary ms-4"
-                        variant="outlined"
-                        color="primary"
-                      >
-                        UPLOAD IMAGE
-                      </i>
+                      <div className="col-md-4">
+                        <input
+                          type="file"
+                          onClick={Imageupload}
+                          placeholder="UPLOAD IMAGE(600x800)"
+                          className="form-control"
+                        />
+                        <label>UPLOAD IMAGE(600x800)</label>
+                      </div>
 
                       {image && (
                         <>

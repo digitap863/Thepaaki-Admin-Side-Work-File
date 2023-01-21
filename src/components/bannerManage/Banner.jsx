@@ -96,7 +96,7 @@ export default function FormPropsTextFields() {
         setImage("");
         setLoading(true);
         setLoading(false);
-        
+
         reset();
         swal("Successfully Added!", {
           icon: "success",
@@ -150,29 +150,26 @@ export default function FormPropsTextFields() {
     });
   };
 
-  const Imageupload = () => {
-    var myWidget = window.cloudinary.openUploadWidget(
-      {
-        cloudName: "dq06v1dnz",
-        uploadPreset: "thepaaki",
-
-      },
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          setImage(result.info.url);
-
-          // setImage((prev) => [
-          //   ...prev,
-          //   { url: result.info.url, public_id: result.info.public_id },
-          // ]);
-        }
-      }
-    );
-
-    myWidget.open();
+  const Imageupload = async (e) => {
+    const file = e.target.files[0];
+    const fileName = e.target.files[0].name;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", fileName);
+    try {
+      const { data } = await axios.post(
+        "/api/superAdmin/image-uploading",
+        formData
+      );
+      setImage(data.url);
+      // setImage((prev) => [
+      //   ...prev,
+      //   { url: result.info.url, public_id: result.info.public_id },
+      // ]);
+    } catch (error) {
+      console.log(error);
+    }
   };
-
- 
 
   return (
     <Box
@@ -236,15 +233,13 @@ export default function FormPropsTextFields() {
             </div>
             <div className="col-12">
               <div className="col-md-4">
-                <i
-                  onClick={Imageupload}
+                <label>UPLOAD IMAGE(1920x800)</label>
+                <input
+                type="file"
+                  onChange={Imageupload}
                   style={{ marginTop: "3%", width: "100%" }}
-                  className="btn btn-primary ms-2"
-                  variant="outlined"
-                  color="primary"
-                >
-                  UPLOAD IMAGE(1920x800)
-                </i>
+                  className="form-control ms-2"
+                />
               </div>
               <div className="col-md-4 ">
                 <div>
@@ -252,6 +247,7 @@ export default function FormPropsTextFields() {
                     <img
                       src={Image}
                       style={{ width: "200px", height: "150px" }}
+                      className="mt-3"
                     />
                   )}
 
