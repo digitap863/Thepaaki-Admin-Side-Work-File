@@ -206,6 +206,7 @@ function AllOrder() {
       Postcode: data.Postcode,
       PhoneNumber: data.PhoneNumber,
       Email: data?.Email,
+      State: state,
     };
     const FromAddress = {
       FromName: data.FromName,
@@ -215,6 +216,7 @@ function AllOrder() {
       FromPincode: data.FromPincode,
       FromPhoneNumber: data.FromPhoneNumber,
       FromEmail: data?.FromEmail,
+      FromState: fromstate,
     };
     console.log(edit);
     const id = edit._id;

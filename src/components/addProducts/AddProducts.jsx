@@ -23,6 +23,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import LoadingSpin from "react-loading-spin";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -291,6 +292,7 @@ export default function FormPropsTextFields() {
   const [Tag, setTag] = React.useState([]);
   const [New, setNew] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const { register, handleSubmit, trigger, reset } = useForm();
   const AdminDeatails = useSelector((state) => state.admin.value);
@@ -379,20 +381,34 @@ export default function FormPropsTextFields() {
 
   //product image upload function
   const PriductImageupload = async (e) => {
-    const file = e.target.files[0];
-    const fileName = e.target.files[0].name;
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
+    setLoading(true);
+    const length = e.target.files.length;
+    let formData = new FormData();
+    for (let i = 0; i < length; i++) {
+      const file = e.target.files[i];
+      //   const fileName = e.target.files[i].name;
+      formData.append("file", file);
+    }
     try {
       const { data } = await axios.post(
         "/api/superAdmin/image-uploading",
         formData
       );
+      setLoading(false);
+      if (data[0]) {
+        data.map((items) => {
+          setProductImages((prev) => [
+            ...prev,
+            { url: items.url, key: items.key },
+          ]);
+        });
+      } else {
+        setProductImages((prev) => [...prev, { url: data.url, key: data.key }]);
+      }
 
-      setProductImages((prev) => [...prev, { url: data.url }]);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -773,6 +789,7 @@ export default function FormPropsTextFields() {
                     onChange={PriductImageupload}
                     className="form-control  pt-3 pb-3"
                     type="file"
+                    multiple
                   />
                   <label>UPLOAD IMAGE(600x800)</label>
                 </FormControl>
@@ -780,6 +797,7 @@ export default function FormPropsTextFields() {
               {productImages && (
                 <>
                   <div className="row ms-2">
+                    {loading && <LoadingSpin />}
                     {productImages.map((image, index) => {
                       return (
                         <div className="col-md-3">

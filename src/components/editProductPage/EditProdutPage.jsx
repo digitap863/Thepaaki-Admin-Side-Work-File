@@ -367,7 +367,6 @@ export default function FormPropsTextFields() {
         ColorsImage.push(items.image);
         items.size.map((sizes) => {
           size.push(sizes.name);
-
           setValue(`Bustline${sizes.name}`, sizes.Bustline);
           setValue(`Length${sizes.name}`, sizes.Length);
           setValue(`Hip${sizes.name}`, sizes.Hip);
@@ -426,11 +425,8 @@ export default function FormPropsTextFields() {
         "/api/superAdmin/image-uploading",
         formData
       );
+
       setImage(data.url);
-      // setImage((prev) => [
-      //   ...prev,
-      //   { url: result.info.url, public_id: result.info.public_id },
-      // ]);
     } catch (error) {
       console.log(error);
     }
@@ -448,7 +444,16 @@ export default function FormPropsTextFields() {
         "/api/superAdmin/image-uploading",
         formData
       );
-      setProductImages((prev) => [...prev, { url: data.url }]);
+      if (data[0]) {
+        data.map((items) => {
+          setProductImages((prev) => [
+            ...prev,
+            { url: items.url, key: items.key },
+          ]);
+        });
+      } else {
+        setProductImages((prev) => [...prev, { url: data.url, key: data.key }]);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -659,7 +664,7 @@ export default function FormPropsTextFields() {
             name: datas.name,
             sku: "asdf123",
             price: datas.price,
-            discount: datas.discount,
+            discount: parseInt(datas.discount),
             wholesaler: datas.wholsalerPrice,
             new: true,
             rating: rating,
@@ -986,7 +991,7 @@ export default function FormPropsTextFields() {
                       <div className="col-md-4">
                         <input
                           type="file"
-                          onClick={Imageupload}
+                          onChange={Imageupload}
                           placeholder="UPLOAD IMAGE(600x800)"
                           className="form-control"
                         />
