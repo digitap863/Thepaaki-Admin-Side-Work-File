@@ -663,9 +663,9 @@ export default function FormPropsTextFields() {
           {
             name: datas.name,
             sku: "asdf123",
-            price: datas.price,
+            price:  parseInt(datas.price),
             discount: parseInt(datas.discount),
-            wholesaler: datas.wholsalerPrice,
+            wholesaler: parseInt(datas.wholsalerPrice),
             new: true,
             rating: rating,
             saleCount: saleCount,
