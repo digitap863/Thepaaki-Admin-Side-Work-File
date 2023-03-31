@@ -18,12 +18,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-// import { useToasts } from "react-toast-notifications";
 import axios from "axios";
 import swal from "sweetalert";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import LoadingSpin from "react-loading-spin";
+import CloseIcon from "@mui/icons-material/Close";
+import { useParams, useNavigate } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -280,8 +279,9 @@ const NewItems = [
 
 export default function FormPropsTextFields() {
   const theme = useTheme();
-  const [rating, setRating] = React.useState();
-  const [Category, setCategory] = React.useState();
+  const [product, setProducts] = useState([]);
+  const [rating, setRating] = React.useState(null);
+  const [Category, setCategory] = React.useState(null);
   const [color, setColor] = React.useState([]);
   const [size, setSize] = React.useState([]);
   const [index, setIndex] = useState(0);
@@ -290,30 +290,111 @@ export default function FormPropsTextFields() {
   const [productImages, setProductImages] = useState([]);
   const [stoke, setStoke] = useState([]);
   const [Tag, setTag] = React.useState([]);
+  const [editStock, setEditStock] = useState([]);
   const [New, setNew] = useState(false);
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [ColorsImage, setColorsImage] = useState([]);
+  const [saleCount, setsaleCount] = useState();
 
-  const { register, handleSubmit, trigger, reset } = useForm();
+  const params = useParams();
+  const navigate = useNavigate();
+  var Available = false;
+  const { register, handleSubmit, trigger, reset, setValue } = useForm();
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    trigger: trigger2,
+    reset: reset2,
+    setValue: setValue2,
+  } = useForm();
   const AdminDeatails = useSelector((state) => state.admin.value);
   const ChangeColor = (event) => {
     const {
       target: { value },
     } = event;
-    setColor(typeof value === "string" ? value.split(",") : value);
+
+    setColor(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
   };
   const ChangeSize = (event) => {
     const {
       target: { value },
     } = event;
-    setSize(typeof value === "string" ? value.split(",") : value);
+    setSize(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
   };
+  var EditprodutDeatails;
+  React.useEffect(async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          "auth-token": AdminDeatails.Token,
+        },
+      };
+      const { data } = await axios.get(
+        `/api/superAdmin/get-sinlge-Produt/${params.id}`,
+        config
+      );
+
+      data.image.map((item) => {
+        productImages.push(item);
+      });
+      setCategory(data.category[0]);
+
+      if (data.new) {
+        setNew(true);
+      }
+      if (data.rating) {
+        setRating(data.rating);
+      }
+      setProducts(data);
+      setValue("wholsalerPrice", data.wholesaler);
+      setValue("name", data.name);
+      setValue("price", data.price);
+      setValue("discount", data.discount);
+      setValue("Description", data.shortDescription);
+      setsaleCount(data.saleCount);
+      //   setRating(data.rating);
+      //   handleChange(data.rating);
+      let color = [];
+      const size = [];
+      data.variation.map((items) => {
+        color.push(items.color);
+        ColorsImage.push(items.image);
+        items.size.map((sizes) => {
+          size.push(sizes.name);
+          setValue(`Bustline${sizes.name}`, sizes.Bustline);
+          setValue(`Length${sizes.name}`, sizes.Length);
+          setValue(`Hip${sizes.name}`, sizes.Hip);
+          setValue(`Hip${sizes.name}`, sizes.Hip);
+          setValue(`Sleeve${sizes.name}`, sizes.Sleeve);
+
+          editStock.push({
+            colors: items.color,
+            siz: sizes.name,
+            sto: sizes.stock ? sizes.stock : 0,
+          });
+        });
+      });
+      setImage(ColorsImage[index]);
+      var uniqueArray = Array.from(new Set(size));
+      setImage(ColorsImage[index]);
+      ChangeSize({ edit: true, target: { value: uniqueArray } });
+      ChangeColor({ edit: true, target: { value: color } });
+      handleTag({ edit: true, target: { value: data.tag } });
+    } catch (error) {}
+  }, []);
 
   //add tag name
   const handleTag = (event) => {
     const {
       target: { value },
     } = event;
+
     setTag(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
@@ -328,33 +409,9 @@ export default function FormPropsTextFields() {
   const ChangeCategory = (event) => {
     setCategory(event.target.value);
   };
-  const ChangeNew = () => {
-    if (New == true) {
-      setNew(false);
-    } else {
-      setNew(true);
-    }
+  const ChangeNew = (event) => {
+    setNew(event.target.value);
   };
-  // const udateStoke = (event, size, colors) => {
-  //   color.map((data) => {
-  //     if (data == color) {
-  //       const obj = {
-  //         name: color,
-  //         size: [
-  //           {
-  //             name: size,
-  //             stock: event,
-  //           },
-  //         ],
-  //       };
-  //     }
-  //   });
-
-  //   // setImage((prev) => [
-  //   //   ...prev,
-  //   //   { url: result.info.url, public_id: result.info.public_id },
-  //   // ]);
-  // };
 
   //image uploding function
   const Imageupload = async (e) => {
@@ -370,10 +427,6 @@ export default function FormPropsTextFields() {
       );
 
       setImage(data.url);
-      // setImage((prev) => [
-      //   ...prev,
-      //   { url: result.info.url, public_id: result.info.public_id },
-      // ]);
     } catch (error) {
       console.log(error);
     }
@@ -381,20 +434,16 @@ export default function FormPropsTextFields() {
 
   //product image upload function
   const PriductImageupload = async (e) => {
-    setLoading(true);
-    const length = e.target.files.length;
-    let formData = new FormData();
-    for (let i = 0; i < length; i++) {
-      const file = e.target.files[i];
-      //   const fileName = e.target.files[i].name;
-      formData.append("file", file);
-    }
+    const file = e.target.files[0];
+    const fileName = e.target.files[0].name;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", fileName);
     try {
       const { data } = await axios.post(
         "/api/superAdmin/image-uploading",
         formData
       );
-      setLoading(false);
       if (data[0]) {
         data.map((items) => {
           setProductImages((prev) => [
@@ -405,10 +454,8 @@ export default function FormPropsTextFields() {
       } else {
         setProductImages((prev) => [...prev, { url: data.url, key: data.key }]);
       }
-
     } catch (error) {
       console.log(error);
-      setLoading(false);
     }
   };
 
@@ -418,7 +465,7 @@ export default function FormPropsTextFields() {
       if (data.M > 0) {
         stoke.push({
           name: "M",
-          stock: data.M,
+          stock: parseInt(data.M),
           Bustline: data.BustlineM,
           Length: data.LengthM,
           Hip: data.HipM,
@@ -428,7 +475,7 @@ export default function FormPropsTextFields() {
       if (data.S > 0) {
         stoke.push({
           name: "S",
-          stock: data.S,
+          stock: parseInt(data.S),
           Bustline: data.BustlineS,
           Length: data.LengthS,
           Hip: data.HipS,
@@ -438,7 +485,7 @@ export default function FormPropsTextFields() {
       if (data.L > 0) {
         stoke.push({
           name: "L",
-          stock: data.L,
+          stock: parseInt(data.L),
           Bustline: data.BustlineL,
           Length: data.LengthL,
           Hip: data.HipL,
@@ -448,7 +495,7 @@ export default function FormPropsTextFields() {
       if (data.XL > 0) {
         stoke.push({
           name: "XL",
-          stock: data.XL,
+          stock: parseInt(data.XL),
           Bustline: data.BustlineXL,
           Length: data.LengthXL,
           Hip: data.HipXL,
@@ -458,7 +505,7 @@ export default function FormPropsTextFields() {
       if (data.XXL > 0) {
         stoke.push({
           name: "XXL",
-          stock: data.XXL,
+          stock: parseInt(data.XXL),
           Bustline: data.BustlineXXL,
           Length: data.LengthXXL,
           Hip: data.HipXXL,
@@ -468,7 +515,7 @@ export default function FormPropsTextFields() {
       if (data.XXXL > 0) {
         stoke.push({
           name: "XXXL",
-          stock: data.XXXL,
+          stock: parseInt(data.XXXL),
           Bustline: data.BustlineXXXL,
           Length: data.LengthXXXL,
           Hip: data.HipXXXL,
@@ -478,7 +525,7 @@ export default function FormPropsTextFields() {
       if (data.XXXXL > 0) {
         stoke.push({
           name: "XXXXL",
-          stock: data.XXXXL,
+          stock: parseInt(data.XXXXL),
           Bustline: data.BustlineXXXXL,
           Length: data.LengthXXXXL,
           Hip: data.HipXXXXL,
@@ -488,7 +535,7 @@ export default function FormPropsTextFields() {
       if (data.XXXXXL > 0) {
         stoke.push({
           name: "XXXXXL",
-          stock: data.XXXXXL,
+          stock: parseInt(data.XXXXXL),
           Bustline: data.BustlineXXXXXL,
           Length: data.LengthXXXXXL,
           Hip: data.HipXXXXXL,
@@ -500,11 +547,103 @@ export default function FormPropsTextFields() {
         image: image,
         size: stoke,
       };
-      varitaion.push(obj);
+      if (obj.size[0]) {
+        varitaion.push(obj);
+      } else {
+        size.map((availabel) => {
+          if (availabel == "M") {
+            stoke.push({
+              name: "M",
+              stock: 0,
+              Bustline: data.BustlineM,
+              Length: data.LengthM,
+              Hip: data.HipM,
+              Sleeve: data.SleeveM,
+            });
+          }
+          if (availabel == "S") {
+            stoke.push({
+              name: "S",
+              stock: 0,
+              Bustline: data.BustlineS,
+              Length: data.LengthS,
+              Hip: data.HipS,
+              Sleeve: data.SleeveS,
+            });
+          }
+          if (availabel == "L") {
+            stoke.push({
+              name: "L",
+              stock: 0,
+              Bustline: data.BustlineL,
+              Length: data.LengthL,
+              Hip: data.HipL,
+              Sleeve: data.SleeveL,
+            });
+          }
+          if (availabel == "XL") {
+            stoke.push({
+              name: "XL",
+              stock: 0,
+              Bustline: data.BustlineXL,
+              Length: data.LengthXL,
+              Hip: data.HipXL,
+              Sleeve: data.SleeveXL,
+            });
+          }
+          if (availabel == "XXL") {
+            stoke.push({
+              name: "XXL",
+              stock: 0,
+              Bustline: data.BustlineXXL,
+              Length: data.LengthXXL,
+              Hip: data.HipXXL,
+              Sleeve: data.SleeveXXL,
+            });
+          }
+          if (availabel == "XXXL") {
+            stoke.push({
+              name: "XXXL",
+              stock: 0,
+              Bustline: data.BustlineXXXL,
+              Length: data.LengthXXXL,
+              Hip: data.HipXXXL,
+              Sleeve: data.SleeveXXXL,
+            });
+          }
+          if (availabel == "XXXXL") {
+            stoke.push({
+              name: "XXXXL",
+              stock: 0,
+              Bustline: data.BustlineXXXXL,
+              Length: data.LengthXXXXL,
+              Hip: data.HipXXXXL,
+              Sleeve: data.SleeveXXXXL,
+            });
+          }
+          if (availabel == "XXXXXL") {
+            stoke.push({
+              name: "XXXXXL",
+              stock: 0,
+              Bustline: data.BustlineXXXXXL,
+              Length: data.LengthXXXXXL,
+              Hip: data.HipXXXXXL,
+              Sleeve: data.SleeveXXXXXL,
+            });
+          }
+        });
+        const objs = {
+          color: color[index],
+          image: image,
+          size: stoke,
+        };
+        varitaion.push(objs);
+      }
       setImage("");
       setStoke([]);
-
-      setIndex(index + 1);
+      const inc = index + 1;
+      setIndex(inc);
+      setImage(ColorsImage[inc]);
     } else {
       swal("OOPS!", "Please Update Image!", "info");
     }
@@ -520,16 +659,16 @@ export default function FormPropsTextFields() {
           },
         };
         const { data } = await axios.post(
-          "/api/superAdmin/addProduct",
+          `/api/superAdmin/Edit-Produts/${params.id}`,
           {
             name: datas.name,
             sku: "asdf123",
             price: parseInt(datas.price),
             discount: parseInt(datas.discount),
             wholesaler: parseInt(datas.wholsalerPrice),
-            new: New,
-            rating: parseInt(rating),
-            saleCount: 10,
+            new: true,
+            rating: rating,
+            saleCount: saleCount,
             tag: Tag,
             category: [Category],
             variation: varitaion,
@@ -537,30 +676,32 @@ export default function FormPropsTextFields() {
             fullDescription: "hg",
             shortDescription: datas.Description,
           },
-          config
+          config    
         );
         reset();
-        swal("Successfully Added!", {
+        swal("Successfully Added!", { 
           icon: "success",
         });
-        navigate("/");
+        navigate("/view-all-products");
       } catch (error) {
-        swal("OOPS!", "Somthing Went Wrong!", "error");
+        swal("OOPS!", "Something Went Wrong!", "error");
       }
     } else {
       swal("OOPS!", "Please Update Field!", "info");
     }
   };
+
+  const deleteProdutImage = (index) => {
+    const test = [...productImages];
+    test.splice(index, 1);
+    setProductImages(test);
+  };
+
+  const single = product[0];
+
   return (
     <>
-      <Box
-        sx={{
-          marginTop: "10px",
-          boxShadow: "2px 4px 10px 7px rgba(201, 201, 201, 0.47)",
-          marginLeft: "10px",
-          marginRight: "10px",
-        }}
-      >
+      <Box sx={{ marginLeft: "20px", overflowX: "hidden" }}>
         <Box
           component="form"
           onSubmit={handleSubmit(onProduct)}
@@ -571,17 +712,14 @@ export default function FormPropsTextFields() {
           autoComplete="off"
         >
           <div className="text-center">
-            <h4 style={{ marginTop: "2%", paddingTop: "35px" }}>
-              ADD PRODUCT PAGE
-            </h4>
+            <h4 style={{ marginTop: "2%" }}>EDIT PRODUCT PAGE</h4>
           </div>
-          <div className="container">
+          <div className="container mt-3">
             <div className="row col-lg-10 text-center">
               <div className="col-lg-4 col-md-6">
                 <TextField
                   required
-                  id="outlined-uncontrolled"
-                  label="Enter Product Name"
+                  label="First Name"
                   defaultValue=""
                   {...register("name", {
                     required: "Please enter Product name",
@@ -589,30 +727,33 @@ export default function FormPropsTextFields() {
                   onKeyUp={() => {
                     trigger("name");
                   }}
+                  InputLabelProps={{ shrink: true }}
                 />
               </div>
               <div className="col-lg-4 col-md-6">
                 <TextField
                   id="outlined-uncontrolled"
-                  label="Enter Product Price*"
+                  label="Enter Product Price "
                   {...register("price", {
                     required: "Please enter Product Price",
                   })}
                   onKeyUp={() => {
                     trigger("price");
                   }}
+                  InputLabelProps={{ shrink: true }}
                 />
               </div>
               <div className="col-lg-4 col-md-6">
                 <TextField
                   id="outlined-password-input"
-                  label="Enter Wholesaler Amount*"
+                  label="Enter Wholesaler Amount"
                   {...register("wholsalerPrice", {
                     required: "Please enter wholsalerPrice",
                   })}
                   onKeyUp={() => {
                     trigger("wholsalerPrice");
                   }}
+                  InputLabelProps={{ shrink: true }}
                 />
               </div>
               <div className="col-lg-4 col-md-6">
@@ -623,13 +764,15 @@ export default function FormPropsTextFields() {
                   onKeyUp={() => {
                     trigger("discount");
                   }}
+                  InputLabelProps={{ shrink: true }}
                 />
               </div>
               <div className="col-lg-4 col-md-6">
                 <TextField
+                  InputLabelProps={{ shrink: true }}
                   id="outlined-select-currency"
                   select
-                  label="Rating*"
+                  label="Select"
                   value={rating}
                   onChange={handleChange}
                 >
@@ -642,9 +785,10 @@ export default function FormPropsTextFields() {
               </div>
               <div className="col-lg-4 col-md-6">
                 <TextField
+                  InputLabelProps={{ shrink: true }}
                   id="outlined-select-currency"
                   select
-                  label="Category*"
+                  label="Select"
                   value={Category}
                   onChange={ChangeCategory}
                 >
@@ -758,6 +902,7 @@ export default function FormPropsTextFields() {
               </div>
               <div className="col-lg-4 col-md-6">
                 <TextField
+                  InputLabelProps={{ shrink: true }}
                   id="outlined-multiline-flexible"
                   label="Add Product Description"
                   multiline
@@ -789,25 +934,33 @@ export default function FormPropsTextFields() {
                     onChange={PriductImageupload}
                     className="form-control  pt-3 pb-3"
                     type="file"
-                    multiple
                   />
                   <label>UPLOAD IMAGE(600x800)</label>
                 </FormControl>
               </div>
               {productImages && (
                 <>
-                  <div className="row ms-2">
-                    {loading && <LoadingSpin />}
-                    {productImages.map((image, index) => {
-                      return (
-                        <div className="col-md-3">
-                          <img
-                            src={image.url}
-                            style={{ width: "200px", height: "250px" }}
-                          ></img>
-                        </div>
-                      );
-                    })}
+                  <div className="container">
+                    <div className="row ms-2">
+                      {productImages.map((image, index) => {
+                        return (
+                          <div className="col-md-4" key={index}>
+                            <img
+                              src={image.url}
+                              style={{ width: "200px", height: "250px" }}
+                            ></img>
+                            <div className="d-flex justify-content-center mt-3">
+                              <i onClick={(row) => deleteProdutImage(index)}>
+                                {" "}
+                                <CloseIcon
+                                  style={{ color: "red", cursor: "pointer" }}
+                                />
+                              </i>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </>
               )}
@@ -815,7 +968,7 @@ export default function FormPropsTextFields() {
               {color[index] ? (
                 " "
               ) : (
-                <div className="text-center mt-5 mb-5">
+                <div className="text-center mt-5">
                   <button
                     type="submit"
                     className="btn btn-primary float-center"
@@ -830,8 +983,8 @@ export default function FormPropsTextFields() {
 
         {color[index] && (
           <form onSubmit={handleSubmit(onSubmit)} name="data">
-            <div className="row">
-              <div className="col-10">
+            <div className="container">
+              <div className="row">
                 <TableContainer component={Paper} sx={{ marginTop: "5%" }}>
                   <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <caption>
@@ -846,11 +999,13 @@ export default function FormPropsTextFields() {
                       </div>
 
                       {image && (
-                        <img
-                          className="float-center ms-5 mt-4"
-                          src={image}
-                          style={{ width: "200px", height: "250px" }}
-                        ></img>
+                        <>
+                          <img
+                            className="float-center ms-5"
+                            src={image}
+                            style={{ width: "200px", height: "250px" }}
+                          ></img>
+                        </>
                       )}
                       <button
                         type="submit"
@@ -874,6 +1029,7 @@ export default function FormPropsTextFields() {
 
                     <TableBody>
                       {size.map((row, indexs) => {
+                        Available = false;
                         return (
                           <TableRow
                             key={indexs}
@@ -941,19 +1097,54 @@ export default function FormPropsTextFields() {
                               />
                             </TableCell>
                             <TableCell align="center">
-                              <input
-                                key={index}
-                                style={{ width: "60px", height: "40px" }}
-                                type="text"
-                                id="outlined-uncontrolled"
-                                label="Enter Offer Percentage"
-                                {...register(row, {
-                                  required: "Invalid Number",
-                                })}
-                                onKeyUp={() => {
-                                  trigger(row);
-                                }}
-                              />
+                              {editStock.map((status) => {
+                                if (
+                                  status.colors == color[index] &&
+                                  status.siz == row
+                                ) {
+                                  Available = true;
+                                  setValue(row, status.sto ? status.sto : 0);
+
+                                  return (
+                                    <input
+                                      key={index}
+                                      style={{ width: "60px", height: "40px" }}
+                                      type="text"
+                                      id="outlined-uncontrolled"
+                                      label="Enter Offer Percentage"
+                                      {...register(row, {
+                                        required: "Invalid Number",
+                                      })}
+                                      onKeyUp={() => {
+                                        trigger(row);
+                                      }}
+                                    />
+                                  );
+                                } else {
+                                  if (
+                                    status.colors == color[index] &&
+                                    status.siz != row &&
+                                    !Available
+                                  ) {
+                                    setValue(row, 0);
+                                  }
+                                }
+                              })}
+
+                              {!Available && (
+                                <input
+                                  key={index}
+                                  style={{ width: "60px", height: "40px" }}
+                                  type="text"
+                                  id="outlined-uncontrolled"
+                                  {...register(row, {
+                                    required: "Invalid Number",
+                                  })}
+                                  onKeyUp={() => {
+                                    trigger(row);
+                                  }}
+                                />
+                              )}
                             </TableCell>
                           </TableRow>
                         );

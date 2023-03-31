@@ -50,7 +50,7 @@ function AllOrder() {
       cell: (row) => (
         <>
           <RemoveRedEyeIcon
-            onClick={() => navigate(`/view-order-item/${row.Id}`)}
+            onClick={() => navigate(`/view-order-item/${row._id}`)}
             style={{ color: "blue", cursor: "pointer" }}
           />
         </>

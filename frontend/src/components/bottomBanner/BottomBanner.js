@@ -121,7 +121,7 @@ export default function FormPropsTextFields() {
                   <StyledTableCell align="left">S/No</StyledTableCell>
                   <StyledTableCell align="center">BANNER IMAGE(431x214)</StyledTableCell>
                   <StyledTableCell align="center">TITILE</StyledTableCell>
-                  <StyledTableCell align="center"> </StyledTableCell>
+                  {/* <StyledTableCell align="center"> </StyledTableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -139,7 +139,7 @@ export default function FormPropsTextFields() {
                     <StyledTableCell align="center">
                       {row.title}
                     </StyledTableCell>
-                    <StyledTableCell align="center">
+                    {/* <StyledTableCell align="center">
                       <EditIcon
                         style={{
                           fontSize: "25px",
@@ -150,7 +150,7 @@ export default function FormPropsTextFields() {
 
                       />  
                      
-                    </StyledTableCell>
+                    </StyledTableCell> */}
                   </StyledTableRow>
                 ))}
               </TableBody>

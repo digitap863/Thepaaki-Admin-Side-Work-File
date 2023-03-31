@@ -124,9 +124,8 @@ function Alluser() {
               },
             };
 
-            const { data } = await axios.post(
-              `/api/superAdmin/convert-user/${id}`,
-            
+            const { data } = await axios.delete(
+              `/api/superAdmin/delete-wholesaler/${id}`,
               config
             );
 

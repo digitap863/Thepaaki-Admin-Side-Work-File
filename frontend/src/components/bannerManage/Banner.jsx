@@ -22,7 +22,7 @@ export default function FormPropsTextFields() {
   const [loading, setLoading] = useState(false);
   //   const { addToast } = useToasts();
   const [Image, setImage] = useState();
-  const AdminDeatails = useSelector((state) => state.admin.value);
+  const AdminDetails = useSelector((state) => state.admin.value);
   const {
     register,
     handleSubmit,
@@ -37,7 +37,7 @@ export default function FormPropsTextFields() {
         const config = {
           headers: {
             "Content-type": "application/json",
-            "auth-token": AdminDeatails.Token,
+            "auth-token": AdminDetails.Token,
           },
         };
         const { data } = await axios.get(
@@ -73,14 +73,14 @@ export default function FormPropsTextFields() {
   const onSubmit = async (data) => {
     if (Image) {
       const title = "Enjoy This Offer Today";
-      const subtitle = `New Collection <br /> Sale ${data.offer}%`;
+      const subtitle = "New Collection <br /> Sale";
       const image = Image;
-      const url = data.link;
+      const url = "/shop-grid-standard";
       try {
         const config = {
           headers: {
             "Contact-type": "application/json",
-            "auth-token": AdminDeatails.Token,
+            "auth-token": AdminDetails.Token,
           },
         };
         const { data } = await axios.post(
@@ -102,7 +102,7 @@ export default function FormPropsTextFields() {
           icon: "success",
         });
       } catch (error) {
-        swal("OOPS!", "Somthing Went Wrong!", "error");
+        swal("OOPS!", "Something Went Wrong!", "error");
       }
     } else {
       swal("OOPS!", "Please Verify Image!", "error");
@@ -126,7 +126,7 @@ export default function FormPropsTextFields() {
           const config = {
             headers: {
               "Content-type": "application/json",
-              "auth-token": AdminDeatails.Token,
+              "auth-token": AdminDetails.Token,
             },
           };
           const { data } = await axios.post(
@@ -158,7 +158,7 @@ export default function FormPropsTextFields() {
     formData.append("fileName", fileName);
     try {
       const { data } = await axios.post(
-        "/api/superAdmin/image-uploading",
+        "/api/superAdmin//upload-banner-image",
         formData
       );
       setImage(data.url);
@@ -189,7 +189,7 @@ export default function FormPropsTextFields() {
       <div className="container ms-5">
         <div className="row">
           <div className="col-12">
-            <div className="col-md-6">
+            {/* <div className="col-md-6">
               <TextField
                 required
                 id="outlined-uncontrolled"
@@ -230,7 +230,7 @@ export default function FormPropsTextFields() {
                   <small className="text-danger">{errors.link.message}</small>
                 )}
               </div>
-            </div>
+            </div> */}
             <div className="col-12">
               <div className="col-md-4">
                 <label>UPLOAD IMAGE(1920x800)</label>

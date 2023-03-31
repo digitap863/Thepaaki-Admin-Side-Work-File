@@ -111,7 +111,7 @@ function AllOrder() {
       cell: (row) => (
         <>
           <RemoveRedEyeIcon
-            onClick={() => navigate(`/view-order-item/${row.Id}`)}
+            onClick={() => navigate(`/view-order-item/${row._id}`)}
             style={{ color: "blue", cursor: "pointer" }}
           />
           {row.role == "wholesaler" && (
@@ -123,7 +123,7 @@ function AllOrder() {
                 cursor: "pointer",
               }}
               onClick={(e) => {
-                TakeAddress(row.Id);
+                TakeAddress(row._id);
               }}
             />
           )}
@@ -142,7 +142,7 @@ function AllOrder() {
   var newArray;
   const TakeAddress = (id) => {
     data.map((items) => {
-      if (items.Id == id) {
+      if (items._id == id) {
         newArray = items;
         setEdit(items);
         AddAddres(items.Address);
@@ -218,7 +218,6 @@ function AllOrder() {
       FromEmail: data?.FromEmail,
       FromState: fromstate,
     };
-    console.log(edit);
     const id = edit._id;
     try {
       const config = {
