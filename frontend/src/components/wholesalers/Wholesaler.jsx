@@ -124,10 +124,10 @@ function Alluser() {
               },
             };
 
-            const { data } = await axios.delete(
+               const { data } = await axios.delete(
               `/api/superAdmin/delete-wholesaler/${id}`,
               config
-            );
+            ); 
 
             swal("OK", "successfuly added!", "success");
             setLoading(true);
