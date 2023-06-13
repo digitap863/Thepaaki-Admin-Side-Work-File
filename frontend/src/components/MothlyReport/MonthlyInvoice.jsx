@@ -46,6 +46,11 @@ function MonthlyInvoice() {
       sortable: true,
     },
     {
+      name: "Quantity",
+      selector: "totalQuantity",
+      sortable: true,
+    },
+    {
       name: "PRODUCT AMOUNT",
       selector: "Amount",
       sortable: true,
@@ -107,11 +112,17 @@ function MonthlyInvoice() {
         );
         {
           data.map((items) => {
+            let quantity=0;
             if (items.wallet) {
               items.Total = items.Total + parseInt(items.wallet);
             }
+            items.Product.map((value)=>{
+              quantity=value.quantity+quantity
+            })
+      
             items.Total = items.Total - items.DeliveyCharge;
             items["HSN"] = 6204;
+            items['totalQuantity']=quantity;
             const Total = items.Total;
             if (items.Address.State == "Kerala") {
               const amount1 = ((parseInt(Total) / 105) * 100).toFixed(2);
@@ -165,14 +176,14 @@ function MonthlyInvoice() {
             <label>Start Date:</label>
             <DatePicker
               selected={startDate}
-              onChange={(date: Date) => setStartDate(date)}
+              onChange={(date) => setStartDate(date)}
             />
           </div>
           <div className="col-md-3">
             <label>End Date:</label>
             <DatePicker
               selected={endDate}
-              onChange={(date: Date) => setEndDate(date)}
+              onChange={(date) => setEndDate(date)}
             />
           </div>
           <div className="col-md-3 mt-4">

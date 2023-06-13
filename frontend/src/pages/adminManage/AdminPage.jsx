@@ -5,7 +5,7 @@ import AdminManage from "../../components/admin/AdminManage"
 
 const List = () => {
   return (
-    <div className="list">
+    <div className="list">   
       <Sidebar/>
       <div className="listContainer">
         <Navbar/>

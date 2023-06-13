@@ -45,10 +45,10 @@ const Home = () => {
             </div>{" "}
           </>
         )}
-        <div className="listContainer">
+        {/* <div className="listContainer">
           <div className="listTitle">Stock Updations</div>
           <Table />
-        </div>
+        </div> */}
       </div>
     </div>
   );
